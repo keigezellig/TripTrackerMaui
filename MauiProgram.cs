@@ -1,4 +1,5 @@
-﻿using MauiIcons.Material;
+﻿using MaterialColorUtilities.Maui;
+using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
 using MauiApp1.Services;
@@ -21,6 +22,7 @@ namespace MauiApp1
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
                 .UseFluentMauiIcons()
+                .UseMaterialColors()
                 .UseMaterialMauiIcons();
 
 
