@@ -34,26 +34,26 @@ namespace MauiApp1
 
         protected override void OnActivated()
         {
-            Messenger.Register<DataViewModel, GpsMessage>(this, (r, m) => r.UpdateGpsData(m));
+            Messenger.Register<DataViewModel, GpsModel>(this, (r, m) => r.UpdateGpsData(m));
             Messenger.Register<DataViewModel, StatusMessage>(this, (r, m) => r.UpdateStatus(m));
-            Messenger.Register<DataViewModel, VehicleMessage>(this, (r, m) => r.UpdateVehicleData(m));
+            Messenger.Register<DataViewModel, VehicleModel>(this, (r, m) => r.UpdateVehicleData(m));
         }
 
-        private void UpdateVehicleData(VehicleMessage message)
+        private void UpdateVehicleData(VehicleModel model)
         {
-            if (message is VehicleSpeedMessage)
+            if (model is VehicleSpeedModel)
             {
-                VehicleSpeed = (int)message.Value;
+                VehicleSpeed = (int)model.Value;
             }
             
-            if (message is VehicleRpmMessage)
+            if (model is VehicleRpmModel)
             {
-                VehicleRpm = (int)message.Value;
+                VehicleRpm = (int)model.Value;
             }
             
-            if (message is VehicleCoolantTempMessage)
+            if (model is VehicleCoolantTempModel)
             {
-                VehicleCoolantTemp = (int)message.Value;
+                VehicleCoolantTemp = (int)model.Value - 273;
             }
         }
 
@@ -68,11 +68,11 @@ namespace MauiApp1
           //  IsActive = m.IsStarted;
         }
 
-        private void UpdateGpsData(GpsMessage message)
+        private void UpdateGpsData(GpsModel model)
         {
-            Time = message.Location.Timestamp.LocalDateTime;
-            SetPosition(message.Location.Latitude, message.Location.Longitude);
-            GpsSpeed = message.GpsSpeed;            
+            Time = model.Location.Timestamp.LocalDateTime;
+            SetPosition(model.Location.Latitude, model.Location.Longitude);
+            GpsSpeed = (int)(model.GpsSpeed * 3.6);            
             
 
         }

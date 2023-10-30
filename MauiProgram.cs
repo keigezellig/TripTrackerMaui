@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Maui.Maps;
 using MaterialColorUtilities.Maui;
+using MauiApp1.Helpers;
 using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
 using MauiApp1.Services;
+using MauiApp1.Services.MessageProcessing;
 using MauiApp1.ViewModels;
 using MetroLog.MicrosoftExtensions;
 using MetroLog.Operators;
@@ -36,9 +38,19 @@ namespace MauiApp1
             builder.Services.AddTransient<MapPage>();
             builder.Services.AddTransient<MapViewModel>();
 
-            builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();            
+            builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();
+            builder.Services.AddScoped<TripStartedMessageProcessor>();
+            builder.Services.AddScoped<VehicleMessageProcessor>();
+            builder.Services.AddScoped<GnssMessageProcessor>();
+            builder.Services.AddScoped<UnknownMessageProcessor>();
+            builder.Services.AddSingleton<ExternalMessageProcessorFactory>();
+            
+            
+            
             //builder.Services.AddTransient<IDataService, RandomDataService>();
             builder.Services.AddTransient<IDataService, MessageQueueDataService>();
+            
+            
 
             builder.Logging
             .AddConsoleLogger(
@@ -63,8 +75,10 @@ namespace MauiApp1
             
             builder.Services.AddSingleton(LogOperatorRetriever.Instance);
 
+            var app = builder.Build();
+            //ServiceHelper.Initialize(app.Services);
 
-            return builder.Build();
+            return app;
         }
     }
 }

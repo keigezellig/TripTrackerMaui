@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using MauiApp1.Models;
 using Microsoft.Maui.Maps;
 
 namespace MauiApp1.ViewModels;
@@ -20,20 +21,20 @@ public partial class MapViewModel : ObservableRecipient
     }
     protected override void OnActivated()
     {
-        Messenger.Register<MapViewModel, GpsMessage>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateMapLocation(m)));
+        Messenger.Register<MapViewModel, GpsModel>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateMapLocation(m)));
     }
 
-    private void UpdateMapLocation(GpsMessage message)
+    private void UpdateMapLocation(GpsModel model)
     {
         if (PinLocations.Count == 0)
         {
-            PinLocations.Add(new PinInfo(message.Location, $"{message.GpsSpeed:F1} km/h"));
-            MapSpan = MapSpan.FromCenterAndRadius(message.Location, new Distance(500));
+            PinLocations.Add(new PinInfo(model.Location, model.VehicleId, $"{model.GpsSpeed * 3.6:F1} km/h"));
+            MapSpan = MapSpan.FromCenterAndRadius(model.Location, new Distance(500));
         }
         else
         {
            PinLocations.Clear();
-           PinLocations.Add(new PinInfo(message.Location, $"{message.GpsSpeed:F1} km/h"));
+           PinLocations.Add(new PinInfo(model.Location, model.VehicleId,$"{model.GpsSpeed * 3.6:F1} km/h"));
         }
         
          
@@ -47,10 +48,14 @@ public partial class PinInfo : ObservableObject
     
     [ObservableProperty] 
     private string _label;
+    
+    [ObservableProperty] 
+    private string _description;
 
-    public PinInfo(Location location, string label)
+    public PinInfo(Location location, string label, string description)
     {
         Location = location;
         Label = label;
+        Description = description;
     }
 }

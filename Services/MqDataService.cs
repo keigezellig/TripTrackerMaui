@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MauiApp1.Services.MessageProcessing;
 
 namespace MauiApp1.Services
 {
@@ -16,70 +17,22 @@ namespace MauiApp1.Services
         private readonly IMessageQueueProvider _mqProvider;
         private bool _disposedValue;
         private ILogger<MessageQueueDataService> _logger;
+        private readonly ExternalMessageProcessorFactory _mpFactory;
 
-        public MessageQueueDataService(IMessageQueueProvider mqProvider, ILogger<MessageQueueDataService> logger) 
+        public MessageQueueDataService(IMessageQueueProvider mqProvider, ILogger<MessageQueueDataService> logger, ExternalMessageProcessorFactory mpFactory ) 
         {
             _mqProvider = mqProvider;
             _mqProvider.MessageReceived += MqProvider_MessageReceived;            
             _logger = logger;
+            _mpFactory = mpFactory;
         }
 
-        
+
         private void MqProvider_MessageReceived(object sender, MessageEventArgs e)
         {
-            _logger.LogInformation($"Data received from topic {e.TopicName} -> {e.Message}");
-            if (e.TopicName == "data/raw/gps")
-            {
-                SendGpsMessage(e.Message);                
-            }
-
-            if (e.TopicName == "data/raw/obd")
-            {
-                SendVehicleMessage(e.Message);
-            }
-
-        }
-
-        private void SendVehicleMessage(string message)
-        {
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
-            var deserializedMsg = JsonSerializer.Deserialize<VehicleJsonMessage>(message, options);
-            var vehicleMessage = ParseVehicleMessage(deserializedMsg);
-            WeakReferenceMessenger.Default.Send(vehicleMessage);
-        }
-
-        private VehicleMessage ParseVehicleMessage(VehicleJsonMessage deserializedMsg)
-        {
-            switch (deserializedMsg.q)
-            {
-                case "speed":
-                    return new VehicleSpeedMessage(deserializedMsg.v);
-                case "rpm":
-                    return new VehicleRpmMessage(deserializedMsg.v);
-                case "coolant_temp":
-                    return new VehicleCoolantTempMessage(deserializedMsg.v);
-                default:
-                    _logger.LogWarning($"Unknown vehicle quantity {deserializedMsg.q}");
-                    return new VehicleUnknownMessage(deserializedMsg.v);
-            }
-        }
-
-        private void SendGpsMessage(string msg)
-        {
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
-            var deserializedMsg = JsonSerializer.Deserialize<GpsJsonMessage>(msg, options);
-            GpsMessage dataMessage = new GpsMessage(
-                    location: new Location(deserializedMsg.P[0], deserializedMsg.P[1], deserializedMsg.T),
-                    gpsSpeed: deserializedMsg.V != null ? (int)Math.Round(deserializedMsg.V.Value * 3.6) : -1,
-                    fixQuality: (GpsMessage.FixQuality)deserializedMsg.Q);
-
-            WeakReferenceMessenger.Default.Send(dataMessage);
+            _logger.LogDebug($"Data received from topic {e.TopicName} -> {e.Message}");
+            var processor = _mpFactory.GetMessageProcessor(e.Message);
+            processor.Process(e.Message);
         }
 
         public bool IsStarted => _mqProvider.IsConnected;
@@ -88,7 +41,7 @@ namespace MauiApp1.Services
         {
             //TODO: hardcoded
             await _mqProvider.Connect("192.168.2.71", 1883);
-            await _mqProvider.Subscribe(new[] { "data/raw/gps", "data/raw/obd" });
+            await _mqProvider.Subscribe(new[] { "live/trip" });
             
             OnStarted();
         }

@@ -11,7 +11,8 @@
         <maps:Map.ItemTemplate>
                 <DataTemplate>
                     <maps:Pin Location="{Binding Location}"
-                              Label="{Binding Label}"/>
+                              Label="{Binding Label}"
+                              Address="{Binding Description}"/>
                 </DataTemplate>    
             </maps:Map.ItemTemplate>
         </controls:MvvmMap>

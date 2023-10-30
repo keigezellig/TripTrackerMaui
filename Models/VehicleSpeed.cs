@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.Models
 {
-    public class VehicleSpeedMessage : VehicleMessage
+    public class VehicleSpeedModel : VehicleModel
     {
-        public VehicleSpeedMessage(double value) : base(value)
+        public VehicleSpeedModel(string tripId, string vehicleId, double value) : base(tripId, vehicleId, value)
         {
         }
     }
