@@ -14,7 +14,7 @@ namespace MauiApp1.Services
     public class MessageQueueDataService: IDataService
     {
         private readonly IMessageQueueProvider _mqProvider;
-        private bool disposedValue;
+        private bool _disposedValue;
         private ILogger<MessageQueueDataService> _logger;
 
         public MessageQueueDataService(IMessageQueueProvider mqProvider, ILogger<MessageQueueDataService> logger) 
@@ -42,22 +42,37 @@ namespace MauiApp1.Services
 
         private void SendVehicleMessage(string message)
         {
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
             var deserializedMsg = JsonSerializer.Deserialize<VehicleJsonMessage>(message, options);
             var vehicleMessage = ParseVehicleMessage(deserializedMsg);
             WeakReferenceMessenger.Default.Send(vehicleMessage);
         }
 
-        private void ParseVehicleMessage(VehicleJsonMessage deserializedMsg)
+        private VehicleMessage ParseVehicleMessage(VehicleJsonMessage deserializedMsg)
         {
-            
+            switch (deserializedMsg.q)
+            {
+                case "speed":
+                    return new VehicleSpeedMessage(deserializedMsg.v);
+                case "rpm":
+                    return new VehicleRpmMessage(deserializedMsg.v);
+                case "coolant_temp":
+                    return new VehicleCoolantTempMessage(deserializedMsg.v);
+                default:
+                    _logger.LogWarning($"Unknown vehicle quantity {deserializedMsg.q}");
+                    return new VehicleUnknownMessage(deserializedMsg.v);
+            }
         }
 
         private void SendGpsMessage(string msg)
         {
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            var options = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
             var deserializedMsg = JsonSerializer.Deserialize<GpsJsonMessage>(msg, options);
             GpsMessage dataMessage = new GpsMessage(
                     location: new Location(deserializedMsg.P[0], deserializedMsg.P[1], deserializedMsg.T),
@@ -73,7 +88,8 @@ namespace MauiApp1.Services
         {
             //TODO: hardcoded
             await _mqProvider.Connect("192.168.2.71", 1883);
-            await _mqProvider.Subscribe("data/raw/gps");
+            await _mqProvider.Subscribe(new[] { "data/raw/gps", "data/raw/obd" });
+            
             OnStarted();
         }
 
@@ -96,14 +112,14 @@ namespace MauiApp1.Services
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
                     _mqProvider.Dispose();
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 

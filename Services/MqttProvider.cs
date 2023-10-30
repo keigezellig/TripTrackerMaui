@@ -93,23 +93,21 @@ namespace MauiApp1.Services
             _logger.LogInformation("Disconnected");
         }
 
-        public async Task Subscribe(string topicName)
+        public async Task Subscribe(string[] topicNames)
         {
             if (!_mqttClient.IsConnected)
             {
                 _logger.LogError("Not connected!");
                 return;
             }
-            var mqttSubscribeOptions = _mqttFactory.CreateSubscribeOptionsBuilder()
-                .WithTopicFilter(
-                    f =>
-                    {
-                        f.WithTopic(topicName);
-                    })
-                .Build();
+            var mqttSubscribeOptionsBuilder = _mqttFactory.CreateSubscribeOptionsBuilder();
+            foreach (var topic in topicNames)
+            {
+                mqttSubscribeOptionsBuilder = mqttSubscribeOptionsBuilder.WithTopicFilter(f => f.WithTopic(topic));
+            }
 
-            var rsult = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
-            var subscribedTo = String.Join(",", rsult.Items.Select(i => i.TopicFilter.Topic));
+            var result = await _mqttClient.SubscribeAsync(mqttSubscribeOptionsBuilder.Build(), CancellationToken.None);
+            var subscribedTo = String.Join(",", result.Items.Select(i => i.TopicFilter.Topic));
             _logger.LogInformation($"Subscribed to {subscribedTo}");
             
         }

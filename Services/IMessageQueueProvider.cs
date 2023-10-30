@@ -14,7 +14,7 @@ namespace MauiApp1.Services
         Task Connect(string host, int port);
         Task Disconnect();
 
-        Task Subscribe(string topicName);
+        Task Subscribe(string[] topics);
 
     }
 

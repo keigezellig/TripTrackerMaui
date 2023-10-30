@@ -10,14 +10,14 @@
         <VerticalStackLayout Margin="20"                        
                              Spacing="10">
             <Image HorizontalOptions="Start" HeightRequest="30" WidthRequest="30" SemanticProperties.Hint="GPS" Source="{material:Icon Icon=Satellite}"/>
-            <Frame BorderColor="Black" Padding="5">
+            <Frame Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=PunchClock}"/>
                     <Label Text="{Binding Time, StringFormat='{0:G}', FallbackValue='N/A'}" FontSize="18" />
                 </HorizontalStackLayout>
             </Frame>
 
-            <Frame BorderColor="Black"
+            <Frame
               Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=PinDrop}"/>
@@ -26,7 +26,7 @@
                            VerticalOptions="End"/>
                 </HorizontalStackLayout>
             </Frame>
-            <Frame BorderColor="Black"
+            <Frame
               Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=Speed}"/>
@@ -37,7 +37,7 @@
             
 
             <Image HorizontalOptions="Start" HeightRequest="30" WidthRequest="30" SemanticProperties.Hint="Vehicle" Source="{fluent:Icon Icon=VehicleCar32}"/>
-            <Frame BorderColor="Black"
+            <Frame
               Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=Speed}"/>
@@ -46,7 +46,7 @@
                            VerticalOptions="End"/>
                 </HorizontalStackLayout>
             </Frame>
-            <Frame BorderColor="Black"
+            <Frame
               Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{fluent:Icon Icon=Gauge32}"/>
@@ -54,7 +54,7 @@
                       FontSize="18" />
                 </HorizontalStackLayout>
             </Frame>
-            <Frame BorderColor="Black"
+            <Frame 
               Padding="5">
                 <HorizontalStackLayout Spacing="15">
                     <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{fluent:Icon Icon=Water32}"/>

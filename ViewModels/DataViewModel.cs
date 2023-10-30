@@ -34,8 +34,27 @@ namespace MauiApp1
 
         protected override void OnActivated()
         {
-            Messenger.Register<DataViewModel, GpsMessage>(this, (r, m) => r.Receive(m));
+            Messenger.Register<DataViewModel, GpsMessage>(this, (r, m) => r.UpdateGpsData(m));
             Messenger.Register<DataViewModel, StatusMessage>(this, (r, m) => r.UpdateStatus(m));
+            Messenger.Register<DataViewModel, VehicleMessage>(this, (r, m) => r.UpdateVehicleData(m));
+        }
+
+        private void UpdateVehicleData(VehicleMessage message)
+        {
+            if (message is VehicleSpeedMessage)
+            {
+                VehicleSpeed = (int)message.Value;
+            }
+            
+            if (message is VehicleRpmMessage)
+            {
+                VehicleRpm = (int)message.Value;
+            }
+            
+            if (message is VehicleCoolantTempMessage)
+            {
+                VehicleCoolantTemp = (int)message.Value;
+            }
         }
 
         private void UpdateStatus(StatusMessage m)
@@ -49,7 +68,7 @@ namespace MauiApp1
           //  IsActive = m.IsStarted;
         }
 
-        private void Receive(GpsMessage message)
+        private void UpdateGpsData(GpsMessage message)
         {
             Time = message.Location.Timestamp.LocalDateTime;
             SetPosition(message.Location.Latitude, message.Location.Longitude);
