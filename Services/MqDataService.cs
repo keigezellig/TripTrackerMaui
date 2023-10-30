@@ -76,7 +76,7 @@ namespace MauiApp1.Services
             var deserializedMsg = JsonSerializer.Deserialize<GpsJsonMessage>(msg, options);
             GpsMessage dataMessage = new GpsMessage(
                     location: new Location(deserializedMsg.P[0], deserializedMsg.P[1], deserializedMsg.T),
-                    gpsSpeed: (int)Math.Round(deserializedMsg.V * 3.6),
+                    gpsSpeed: deserializedMsg.V != null ? (int)Math.Round(deserializedMsg.V.Value * 3.6) : -1,
                     fixQuality: (GpsMessage.FixQuality)deserializedMsg.Q);
 
             WeakReferenceMessenger.Default.Send(dataMessage);

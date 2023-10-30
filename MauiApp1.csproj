@@ -51,10 +51,12 @@
 	<ItemGroup>
 		<PackageReference Include="AathifMahir.Maui.MauiIcons.Fluent" Version="1.2.1" />
 		<PackageReference Include="AathifMahir.Maui.MauiIcons.Material" Version="1.2.1" />
+		<PackageReference Include="CommunityToolkit.Maui.Maps" Version="1.0.4" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="MaterialColorUtilities.Maui" Version="0.3.0" />
 		<PackageReference Include="MetroLog.Maui" Version="2.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="7.0.96" />
 		<PackageReference Include="MQTTnet" Version="4.3.1.873" />
 	</ItemGroup>
 

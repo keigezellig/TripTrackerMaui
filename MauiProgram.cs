@@ -1,4 +1,5 @@
-﻿using MaterialColorUtilities.Maui;
+﻿using CommunityToolkit.Maui.Maps;
+using MaterialColorUtilities.Maui;
 using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,8 @@ namespace MauiApp1
                 })
                 .UseFluentMauiIcons()
                 .UseMaterialColors()
+                .UseMauiMaps()
+                .UseMauiCommunityToolkitMaps("FIbihTK8UUhD61pp7uFp~nRhZ8n_l6z6hwY8AqYjGdQ~AoK4JSlpppbAnwR2-rx_hi_FQwlbpsOb0-V1zMLsdShfawdzF7Upl7IIjUPCpyQN")
                 .UseMaterialMauiIcons();
 
 
@@ -30,6 +33,9 @@ namespace MauiApp1
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<DataPage>();
             builder.Services.AddTransient<DataViewModel>();
+            builder.Services.AddTransient<MapPage>();
+            builder.Services.AddTransient<MapViewModel>();
+
             builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();            
             //builder.Services.AddTransient<IDataService, RandomDataService>();
             builder.Services.AddTransient<IDataService, MessageQueueDataService>();

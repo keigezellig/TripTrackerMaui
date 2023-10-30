@@ -13,12 +13,12 @@ namespace MauiApp1.Models
         public long T { get; }
         public double[] P { get; }
 
-        public double V { get; }
+        public double? V { get; }
 
-        public int Q { get; }
+        public int? Q { get; }
 
         [JsonConstructor]
-        public GpsJsonMessage(long t, double[] p, double v, int q) =>
+        public GpsJsonMessage(long t, double[] p, double? v, int? q) =>
             (T, P, V, Q) = (t,p,v,q);
 
 
