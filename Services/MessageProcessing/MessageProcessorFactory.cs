@@ -1,26 +1,20 @@
-﻿using MauiApp1.Helpers;
+﻿using MauiApp1.Services.MessageProcessing.MessageProcessors;
 using Microsoft.Extensions.Logging;
-
 
 namespace MauiApp1.Services.MessageProcessing;
 
-public interface IExternalMessageProcessor
+public class MessageProcessorFactory
 {
-    void Process(string message);
-}
-
-public class ExternalMessageProcessorFactory
-{
-    private ILogger<ExternalMessageProcessorFactory> _logger;
+    private ILogger<MessageProcessorFactory> _logger;
     private readonly IServiceProvider _serviceProvider;
 
-    public ExternalMessageProcessorFactory(IServiceProvider serviceProvider, ILogger<ExternalMessageProcessorFactory> logger)
+    public MessageProcessorFactory(IServiceProvider serviceProvider, ILogger<MessageProcessorFactory> logger)
     {
         _logger = logger;
         _serviceProvider = serviceProvider;
 
     }
-    public IExternalMessageProcessor GetMessageProcessor(string message)
+    public IMessageProcessor GetMessageProcessor(string message)
     {
         if (message.Contains("TRIP_STARTED"))
         {

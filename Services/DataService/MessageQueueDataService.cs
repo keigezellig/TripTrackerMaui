@@ -1,25 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using MauiApp1.Models;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using MauiApp1.Services.MessageProcessing;
+using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services
+namespace MauiApp1.Services.DataService
 {
     public class MessageQueueDataService: IDataService
     {
         private readonly IMessageQueueProvider _mqProvider;
         private bool _disposedValue;
         private ILogger<MessageQueueDataService> _logger;
-        private readonly ExternalMessageProcessorFactory _mpFactory;
+        private readonly MessageProcessorFactory _mpFactory;
 
-        public MessageQueueDataService(IMessageQueueProvider mqProvider, ILogger<MessageQueueDataService> logger, ExternalMessageProcessorFactory mpFactory ) 
+        public MessageQueueDataService(IMessageQueueProvider mqProvider, ILogger<MessageQueueDataService> logger, MessageProcessorFactory mpFactory ) 
         {
             _mqProvider = mqProvider;
             _mqProvider.MessageReceived += MqProvider_MessageReceived;            

@@ -5,7 +5,9 @@ using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
 using MauiApp1.Services;
+using MauiApp1.Services.DataService;
 using MauiApp1.Services.MessageProcessing;
+using MauiApp1.Services.MessageProcessing.MessageProcessors;
 using MauiApp1.ViewModels;
 using MetroLog.MicrosoftExtensions;
 using MetroLog.Operators;
@@ -47,7 +49,7 @@ namespace MauiApp1
             builder.Services.AddSingleton<VehicleMessageProcessor>();
             builder.Services.AddSingleton<GnssMessageProcessor>();
             builder.Services.AddSingleton<UnknownMessageProcessor>();
-            builder.Services.AddSingleton<ExternalMessageProcessorFactory>();
+            builder.Services.AddSingleton<MessageProcessorFactory>();
             
             builder.Services.AddTransient<IDataService, MessageQueueDataService>();
             

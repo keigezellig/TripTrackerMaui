@@ -1,9 +1,8 @@
-﻿using MetroLog;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.MessageProcessing;
+namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
-public class UnknownMessageProcessor : IExternalMessageProcessor
+public class UnknownMessageProcessor : IMessageProcessor
 {
 
     private readonly ILogger<UnknownMessageProcessor> _logger;

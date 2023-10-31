@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Models;
+﻿namespace MauiApp1.Models.TripEvents;
 
 public class TripStartedModel
 {

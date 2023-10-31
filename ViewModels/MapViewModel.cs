@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using MauiApp1.Models;
+using MauiApp1.Models.TripEvents;
 using Microsoft.Maui.Maps;
 
 namespace MauiApp1.ViewModels;

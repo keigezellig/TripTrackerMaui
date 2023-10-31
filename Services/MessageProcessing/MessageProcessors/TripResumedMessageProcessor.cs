@@ -1,11 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using CommunityToolkit.Mvvm.Messaging;
-using MauiApp1.Models;
+﻿using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
 using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.MessageProcessing;
+namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
 public class TripResumedMessageProcessor : MessageProcessor<TripResumedMessage, TripResumedModel>
 {

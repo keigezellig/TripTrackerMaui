@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Maps;
-
-namespace MauiApp1.Models;
+﻿namespace MauiApp1.Models.TripEvents;
 
 public class TripStoppedModel
 {

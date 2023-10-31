@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing;
 
-public abstract class MessageProcessor<TMessage, TModel> : IExternalMessageProcessor where TMessage : class
+public abstract class MessageProcessor<TMessage, TModel> : IMessageProcessor where TMessage : class
                                                                                      where TModel: class 
 {
     protected ILogger<MessageProcessor<TMessage, TModel>> _logger;
