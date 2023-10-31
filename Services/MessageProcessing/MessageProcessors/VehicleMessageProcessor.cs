@@ -4,32 +4,33 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
-public class VehicleMessageProcessor : MessageProcessor<VehicleDataPointMessage, VehicleModel>
+public class VehicleMessageProcessor : MessageProcessor<VehicleDataPointMessage, VehicleEvent>
 {
     
     
-    protected override VehicleModel ConvertToModel(VehicleDataPointMessage deserializedMessage)
+    protected override VehicleEvent ConvertToModel(VehicleDataPointMessage deserializedMessage)
     {
+        var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
         switch (deserializedMessage.Data.Quantity)
         {
             case "speed":
-                return new VehicleSpeedModel(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId,
+                return new VehicleSpeedEvent(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId, timestamp,
                     deserializedMessage.Data.Value);
             case "rpm":
-                return new VehicleRpmModel(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId,
+                return new VehicleRpmEvent(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId,timestamp,
                     deserializedMessage.Data.Value);
             case "coolant_temp":
-                return new VehicleCoolantTempModel(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId,
+                return new VehicleCoolantEvent(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId, timestamp,
                     deserializedMessage.Data.Value);
         }
 
-        return new VehicleUnknownModel(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId, 
+        return new VehicleUnknownEvent(deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId, timestamp, 
             deserializedMessage.Data.Value, deserializedMessage.Data.Quantity, deserializedMessage.Data.Unit);
 
 
     }
 
-    public VehicleMessageProcessor(ILogger<MessageProcessor<VehicleDataPointMessage, VehicleModel>> logger) : base(logger)
+    public VehicleMessageProcessor(ILogger<MessageProcessor<VehicleDataPointMessage, VehicleEvent>> logger) : base(logger)
     {
     }
 }

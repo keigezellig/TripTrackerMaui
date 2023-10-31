@@ -1,11 +1,7 @@
 ﻿namespace MauiApp1.Models.TripEvents;
 
-public class TripStoppedModel
+public class TripStoppedEvent : Event
 {
-    public string TripId { get; }
-    public string VehicleId { get;  }
-    
-    public DateTimeOffset Timestamp { get; }
     public Location Position { get; }
     
     public int Odometer { get; }
@@ -20,13 +16,10 @@ public class TripStoppedModel
     
     
 
-    public TripStoppedModel(DateTimeOffset timestamp, int odometer, Location position, string tripId, string vehicleId, TimeSpan duration, double averageSpeed, int distance)
+    public TripStoppedEvent(DateTimeOffset timestamp, int odometer, Location position, string tripId, string vehicleId, TimeSpan duration, double averageSpeed, int distance) : base(tripId, vehicleId, timestamp) 
     {
-        Timestamp = timestamp;
         Odometer = odometer;
         Position = position;
-        TripId = tripId;
-        VehicleId = vehicleId;
         Duration = duration;
         AverageSpeed = averageSpeed;
         Distance = distance;

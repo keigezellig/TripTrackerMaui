@@ -1,14 +1,11 @@
 ﻿namespace MauiApp1.Models.TripEvents
 {
-    public abstract class VehicleModel
+    public abstract class VehicleEvent : Event
     {
-        public string TripId { get; }
-        public string VehicleId { get; }
-        
         public double Value { get; }
                 
 
-        protected VehicleModel(string tripId, string vehicleId, double value)
+        protected VehicleEvent(string tripId, string vehicleId, DateTimeOffset timestamp, double value): base(tripId, vehicleId, timestamp)
         {
             Value = value;
             TripId = tripId;

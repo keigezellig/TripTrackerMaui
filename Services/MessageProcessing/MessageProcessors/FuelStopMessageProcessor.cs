@@ -4,14 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
-public class FuelStopMessageProcessor : MessageProcessor<FuelStopMessage, FuelStopModel>
+public class FuelStopMessageProcessor : MessageProcessor<FuelStopMessage, FuelStopEvent>
 {
-    protected override FuelStopModel ConvertToModel(FuelStopMessage deserializedMessage)
+    protected override FuelStopEvent ConvertToModel(FuelStopMessage deserializedMessage)
     {
         var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
         var pos = new Location(deserializedMessage.Data.Position[0], deserializedMessage.Data.Position[1]);
         
-        return new FuelStopModel(
+        return new FuelStopEvent(
             deserializedMessage.Data.TripId, 
             deserializedMessage.Data.VehicleId, 
             timestamp,
@@ -23,7 +23,7 @@ public class FuelStopMessageProcessor : MessageProcessor<FuelStopMessage, FuelSt
     }
 
 
-    public FuelStopMessageProcessor(ILogger<MessageProcessor<FuelStopMessage, FuelStopModel>> logger) : base(logger)
+    public FuelStopMessageProcessor(ILogger<MessageProcessor<FuelStopMessage, FuelStopEvent>> logger) : base(logger)
     {
     }
 }

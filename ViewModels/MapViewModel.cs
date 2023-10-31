@@ -22,10 +22,10 @@ public partial class MapViewModel : ObservableRecipient
     }
     protected override void OnActivated()
     {
-        Messenger.Register<MapViewModel, GpsModel>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateMapLocation(m)));
+        Messenger.Register<MapViewModel, GnssEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateMapLocation(m)));
     }
 
-    private void UpdateMapLocation(GpsModel model)
+    private void UpdateMapLocation(GnssEvent model)
     {
         if (PinLocations.Count == 0)
         {

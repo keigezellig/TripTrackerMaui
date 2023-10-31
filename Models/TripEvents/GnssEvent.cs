@@ -1,9 +1,7 @@
 ﻿namespace MauiApp1.Models.TripEvents
 {
-    public class GpsModel
+    public class GnssEvent : Event
     {
-        public string TripId { get;  }
-        public string VehicleId { get;  }
 
         public enum FixQuality
         {
@@ -12,14 +10,12 @@
         public Location Location { get; }
         public double GpsSpeed { get; }
         public FixQuality TheFixQuality {  get; }
-        
 
-        public GpsModel(string tripId, string vehicleId, Location location, double gpsSpeed, FixQuality theFixQuality)
+
+        public GnssEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Location location, double gpsSpeed, FixQuality theFixQuality) : base(tripId,vehicleId, timestamp)
         {
             Location = location;
             GpsSpeed = gpsSpeed;
-            TripId = tripId;
-            VehicleId = vehicleId;
             TheFixQuality = theFixQuality;
         }
     }

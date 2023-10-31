@@ -35,24 +35,24 @@ namespace MauiApp1
 
         protected override void OnActivated()
         {
-            Messenger.Register<DataViewModel, GpsModel>(this, (r, m) => r.UpdateGpsData(m));
+            Messenger.Register<DataViewModel, GnssEvent>(this, (r, m) => r.UpdateGpsData(m));
             Messenger.Register<DataViewModel, StatusMessage>(this, (r, m) => r.UpdateStatus(m));
-            Messenger.Register<DataViewModel, VehicleModel>(this, (r, m) => r.UpdateVehicleData(m));
+            Messenger.Register<DataViewModel, VehicleEvent>(this, (r, m) => r.UpdateVehicleData(m));
         }
 
-        private void UpdateVehicleData(VehicleModel model)
+        private void UpdateVehicleData(VehicleEvent model)
         {
-            if (model is VehicleSpeedModel)
+            if (model is VehicleSpeedEvent)
             {
                 VehicleSpeed = (int)model.Value;
             }
             
-            if (model is VehicleRpmModel)
+            if (model is VehicleRpmEvent)
             {
                 VehicleRpm = (int)model.Value;
             }
             
-            if (model is VehicleCoolantTempModel)
+            if (model is VehicleCoolantEvent)
             {
                 VehicleCoolantTemp = (int)model.Value - 273;
             }
@@ -69,7 +69,7 @@ namespace MauiApp1
           //  IsActive = m.IsStarted;
         }
 
-        private void UpdateGpsData(GpsModel model)
+        private void UpdateGpsData(GnssEvent model)
         {
             Time = model.Location.Timestamp.LocalDateTime;
             SetPosition(model.Location.Latitude, model.Location.Longitude);

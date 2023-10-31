@@ -4,18 +4,18 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
-public class TripStartedMessageProcessor : MessageProcessor<TripStartedMessage, TripStartedModel>
+public class TripStartedMessageProcessor : MessageProcessor<TripStartedMessage, TripStartedEvent>
 {
     
-    protected override TripStartedModel ConvertToModel(TripStartedMessage deserializedMessage)
+    protected override TripStartedEvent ConvertToModel(TripStartedMessage deserializedMessage)
     {
         var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
         var location = new Location(deserializedMessage.Data.Position[0], deserializedMessage.Data.Position[1]);
-        return new TripStartedModel(timestamp, deserializedMessage.Data.Odometer,
-            (TripStartedModel.TripPurpose)deserializedMessage.Data.TripType, location, deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId); 
+        return new TripStartedEvent(timestamp, deserializedMessage.Data.Odometer,
+            (TripStartedEvent.TripPurpose)deserializedMessage.Data.TripType, location, deserializedMessage.Data.TripId, deserializedMessage.Data.VehicleId); 
     }
 
-    public TripStartedMessageProcessor(ILogger<MessageProcessor<TripStartedMessage, TripStartedModel>> logger) : base(logger)
+    public TripStartedMessageProcessor(ILogger<MessageProcessor<TripStartedMessage, TripStartedEvent>> logger) : base(logger)
     {
     }
 }

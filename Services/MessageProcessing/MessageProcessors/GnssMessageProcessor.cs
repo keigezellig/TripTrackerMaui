@@ -4,19 +4,20 @@ using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
-public class GnssMessageProcessor : MessageProcessor<GnssDataPointMessage, GpsModel>
+public class GnssMessageProcessor : MessageProcessor<GnssDataPointMessage, GnssEvent>
 {
-    public GnssMessageProcessor(ILogger<MessageProcessor<GnssDataPointMessage, GpsModel>> logger) : base(logger)
+    public GnssMessageProcessor(ILogger<MessageProcessor<GnssDataPointMessage, GnssEvent>> logger) : base(logger)
     {
     }
 
-    protected override GpsModel ConvertToModel(GnssDataPointMessage deserializedMessage)
+    protected override GnssEvent ConvertToModel(GnssDataPointMessage deserializedMessage)
     {
         var location = new Location(deserializedMessage.Data.Position.Latitude,
             deserializedMessage.Data.Position.Longitude);
-        var fixType = (GpsModel.FixQuality)deserializedMessage.Data.Position.FixQuality;
+        var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
+        var fixType = (GnssEvent.FixQuality)deserializedMessage.Data.Position.FixQuality;
 
-        return new GpsModel( deserializedMessage.Data.TripId,
-            deserializedMessage.Data.VehicleId, location, deserializedMessage.Data.Speed, fixType);
+        return new GnssEvent( deserializedMessage.Data.TripId,
+            deserializedMessage.Data.VehicleId, timestamp, location, deserializedMessage.Data.Speed, fixType);
     }
 }
