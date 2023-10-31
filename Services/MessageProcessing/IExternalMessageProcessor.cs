@@ -25,7 +25,26 @@ public class ExternalMessageProcessorFactory
         if (message.Contains("TRIP_STARTED"))
         {
             return _serviceProvider.GetService<TripStartedMessageProcessor>();   
-            
+        }
+        
+        if (message.Contains("TRIP_STOPPED"))
+        {
+            return _serviceProvider.GetService<TripStoppedMessageProcessor>();   
+        }
+        
+        if (message.Contains("TRIP_PAUSED"))
+        {
+            return _serviceProvider.GetService<TripPausedMessageProcessor>();   
+        }
+        
+        if (message.Contains("TRIP_RESUMED"))
+        {
+            return _serviceProvider.GetService<TripResumedMessageProcessor>();   
+        }
+        
+        if (message.Contains("FUEL_STOP"))
+        {
+            return _serviceProvider.GetService<FuelStopMessageProcessor>();   
         }
 
         if (message.Contains("VEHICLE_DATAPOINT")) 

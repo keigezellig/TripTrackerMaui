@@ -17,10 +17,17 @@ public abstract class MessageProcessor<TMessage, TModel> : IExternalMessageProce
     }
     public void Process(string message)
     {
-        var deserializedMessage = Deserialize(message);
-        var modelData = ConvertToModel(deserializedMessage);
-        SendModelData(modelData);
-        
+        try
+        {
+            var deserializedMessage = Deserialize(message);
+            var modelData = ConvertToModel(deserializedMessage);
+            SendModelData(modelData);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error while processing message: {ex.Message}. Skipping");
+        }
+
     }
 
     private TMessage Deserialize(string message)

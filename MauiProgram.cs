@@ -39,19 +39,18 @@ namespace MauiApp1
             builder.Services.AddTransient<MapViewModel>();
 
             builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();
-            builder.Services.AddScoped<TripStartedMessageProcessor>();
-            builder.Services.AddScoped<VehicleMessageProcessor>();
-            builder.Services.AddScoped<GnssMessageProcessor>();
-            builder.Services.AddScoped<UnknownMessageProcessor>();
+            builder.Services.AddSingleton<TripStartedMessageProcessor>();
+            builder.Services.AddSingleton<TripStoppedMessageProcessor>();
+            builder.Services.AddSingleton<TripResumedMessageProcessor>();
+            builder.Services.AddSingleton<TripPausedMessageProcessor>();
+            builder.Services.AddSingleton<FuelStopMessageProcessor>();
+            builder.Services.AddSingleton<VehicleMessageProcessor>();
+            builder.Services.AddSingleton<GnssMessageProcessor>();
+            builder.Services.AddSingleton<UnknownMessageProcessor>();
             builder.Services.AddSingleton<ExternalMessageProcessorFactory>();
             
-            
-            
-            //builder.Services.AddTransient<IDataService, RandomDataService>();
             builder.Services.AddTransient<IDataService, MessageQueueDataService>();
             
-            
-
             builder.Logging
             .AddConsoleLogger(
                 options =>

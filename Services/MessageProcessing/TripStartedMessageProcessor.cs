@@ -9,8 +9,6 @@ namespace MauiApp1.Services.MessageProcessing;
 
 public class TripStartedMessageProcessor : MessageProcessor<TripStartedMessage, TripStartedModel>
 {
-    private readonly ILogger<TripStartedMessageProcessor> _logger;
-
     
     protected override TripStartedModel ConvertToModel(TripStartedMessage deserializedMessage)
     {
