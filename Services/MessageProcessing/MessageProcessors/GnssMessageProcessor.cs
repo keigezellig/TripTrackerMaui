@@ -1,6 +1,7 @@
 ﻿using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
 using Microsoft.Extensions.Logging;
+using UnitsNet;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
@@ -18,6 +19,6 @@ public class GnssMessageProcessor : MessageProcessor<GnssDataPointMessage, GnssE
         var fixType = (GnssEvent.FixQuality)deserializedMessage.Data.Position.FixQuality;
 
         return new GnssEvent( deserializedMessage.Data.TripId,
-            deserializedMessage.Data.VehicleId, timestamp, location, deserializedMessage.Data.Speed, fixType);
+            deserializedMessage.Data.VehicleId, timestamp, location, Speed.FromMetersPerSecond(deserializedMessage.Data.Speed), fixType);
     }
 }

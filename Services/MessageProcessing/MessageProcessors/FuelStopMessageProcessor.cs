@@ -1,6 +1,8 @@
 ﻿using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
 using Microsoft.Extensions.Logging;
+using UnitsNet;
+using UnitsNet.Units;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
@@ -10,14 +12,14 @@ public class FuelStopMessageProcessor : MessageProcessor<FuelStopMessage, FuelSt
     {
         var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
         var pos = new Location(deserializedMessage.Data.Position[0], deserializedMessage.Data.Position[1]);
-        
+
         return new FuelStopEvent(
-            deserializedMessage.Data.TripId, 
-            deserializedMessage.Data.VehicleId, 
+            deserializedMessage.Data.TripId,
+            deserializedMessage.Data.VehicleId,
             timestamp,
-            pos, 
-            deserializedMessage.Data.AtDistance, 
-            deserializedMessage.Data.Quantity,
+            pos,
+            Length.FromMeters(deserializedMessage.Data.AtDistance), 
+            Volume.FromLiters(deserializedMessage.Data.Quantity),
             (decimal)deserializedMessage.Data.TotalAmount, 
             (decimal)deserializedMessage.Data.Price);
     }

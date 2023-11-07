@@ -1,8 +1,10 @@
-﻿namespace MauiApp1.Models.TripEvents;
+﻿using UnitsNet;
+
+namespace MauiApp1.Models.TripEvents;
 
 public class TripStartedEvent : Event
 {
-    public int Odometer { get; }
+    public Length Odometer { get; }
     public TripPurpose Purpose { get; }
     public Location Position { get; }
 
@@ -13,7 +15,7 @@ public class TripStartedEvent : Event
         NonBusiness
     }
 
-    public TripStartedEvent(DateTimeOffset timestamp, int odometer, TripPurpose purpose, Location position, string tripId, string vehicleId) : base(tripId, vehicleId, timestamp)
+    public TripStartedEvent(DateTimeOffset timestamp, Length odometer, TripPurpose purpose, Location position, string tripId, string vehicleId) : base(tripId, vehicleId, timestamp)
     {
         Odometer = odometer;
         Purpose = purpose;

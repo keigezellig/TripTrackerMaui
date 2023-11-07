@@ -1,9 +1,13 @@
-﻿namespace MauiApp1.Models.TripEvents
+﻿using UnitsNet;
+
+namespace MauiApp1.Models.TripEvents
 {
-    public class VehicleCoolantEvent : VehicleEvent
+    public class VehicleCoolantEvent : Event
     {
-        public VehicleCoolantEvent(string tripId, string vehicleId, DateTimeOffset timestamp, double value) : base(tripId, vehicleId, timestamp, value)
+        public Temperature Value { get; }
+        public VehicleCoolantEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Temperature value) : base(tripId, vehicleId, timestamp)
         {
+            Value = value;
         }
     }
 }

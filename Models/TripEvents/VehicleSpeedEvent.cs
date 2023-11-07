@@ -1,9 +1,13 @@
-﻿namespace MauiApp1.Models.TripEvents
+﻿using UnitsNet;
+
+namespace MauiApp1.Models.TripEvents
 {
-    public class VehicleSpeedEvent : VehicleEvent
+    public class VehicleSpeedEvent : Event
     {
-        public VehicleSpeedEvent(string tripId, string vehicleId, DateTimeOffset timestamp, double value) : base(tripId, vehicleId, timestamp, value)
+        public Speed Value { get; }
+        public VehicleSpeedEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Speed value) : base(tripId, vehicleId, timestamp)
         {
+            Value = value;
         }
     }
 }

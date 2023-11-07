@@ -8,7 +8,6 @@ using Mapsui.Tiling;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets.Zoom;
-using Maui.DataGrid;
 using MauiApp1.ViewModels;
 using HorizontalAlignment =Mapsui.Widgets.HorizontalAlignment;
 using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
@@ -22,9 +21,6 @@ public partial class LiveDataPage : ContentPage
         BindingContext = viewModel;
         InitializeComponent();
         InitMap();
-        // var backgroundColors = new PaletteCollection();
-        // backgroundColors.Add((Color)Application.Current.Resources["Background"]);
-        // DataGrid.RowsBackgroundColorPalette = backgroundColors;
 
     }
     

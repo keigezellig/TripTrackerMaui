@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using MauiApp1.Models.TripEvents;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Maps;
+using UnitsNet;
+using UnitsNet.Units;
 
 namespace MauiApp1.ViewModels;
 
@@ -50,7 +52,7 @@ public partial class LiveDataViewModel : ObservableRecipient
             case GnssEvent gnssEvent:
                 item.CurrentLocation = gnssEvent.Location;
                 SetCalculatedValues(item, gnssEvent);
-                item.Speed = gnssEvent.GpsSpeed;
+                item.Speed = gnssEvent.GpsSpeed.ToUnit(SpeedUnit.Knot);
                 break;
             case TripPausedEvent tripPausedEvent:
                 item.Status = LiveDataItemViewModel.TripStatus.Paused;
@@ -82,7 +84,7 @@ public partial class LiveDataViewModel : ObservableRecipient
     {
         item.Duration = tripEvent.Timestamp - item.StartTime;
         Distance dist = Distance.BetweenPositions(item.StartLocation, item.CurrentLocation);
-        item.Distance = dist.Kilometers;
+        item.Distance = Length.From(dist.Kilometers, LengthUnit.Kilometer).ToUnit(LengthUnit.Kilometer);
     }
 }
 
@@ -98,9 +100,9 @@ public partial class LiveDataItemViewModel : ObservableObject
     [ObservableProperty] private Location _currentLocation;
     [ObservableProperty] private DateTimeOffset _startTime;
     [ObservableProperty] private DateTimeOffset _endTime;
-    [ObservableProperty] private double _distance;
+    [ObservableProperty] private Length _distance;
     [ObservableProperty] private TimeSpan _duration;
-    [ObservableProperty] private double _speed;
+    [ObservableProperty] private Speed _speed;
     
     
     public enum TripStatus

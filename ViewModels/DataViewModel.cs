@@ -37,26 +37,26 @@ namespace MauiApp1
         {
             Messenger.Register<DataViewModel, GnssEvent>(this, (r, m) => r.UpdateGpsData(m));
             Messenger.Register<DataViewModel, StatusMessage>(this, (r, m) => r.UpdateStatus(m));
-            Messenger.Register<DataViewModel, VehicleEvent>(this, (r, m) => r.UpdateVehicleData(m));
+            //Messenger.Register<DataViewModel, VehicleEvent>(this, (r, m) => r.UpdateVehicleData(m));
         }
 
-        private void UpdateVehicleData(VehicleEvent model)
-        {
-            if (model is VehicleSpeedEvent)
-            {
-                VehicleSpeed = (int)model.Value;
-            }
-            
-            if (model is VehicleRpmEvent)
-            {
-                VehicleRpm = (int)model.Value;
-            }
-            
-            if (model is VehicleCoolantEvent)
-            {
-                VehicleCoolantTemp = (int)model.Value - 273;
-            }
-        }
+        // private void UpdateVehicleData(VehicleEvent model)
+        // {
+        //     if (model is VehicleSpeedEvent)
+        //     {
+        //         VehicleSpeed = (int)model.Value;
+        //     }
+        //     
+        //     if (model is VehicleRpmEvent)
+        //     {
+        //         VehicleRpm = (int)model.Value;
+        //     }
+        //     
+        //     if (model is VehicleCoolantEvent)
+        //     {
+        //         VehicleCoolantTemp = (int)model.Value - 273;
+        //     }
+        // }
 
         private void UpdateStatus(StatusMessage m)
         {
@@ -71,9 +71,9 @@ namespace MauiApp1
 
         private void UpdateGpsData(GnssEvent model)
         {
-            Time = model.Location.Timestamp.LocalDateTime;
-            SetPosition(model.Location.Latitude, model.Location.Longitude);
-            GpsSpeed = (int)(model.GpsSpeed * 3.6);            
+            // Time = model.Location.Timestamp.LocalDateTime;
+            // SetPosition(model.Location.Latitude, model.Location.Longitude);
+            // GpsSpeed = (int)(model.GpsSpeed * 3.6);            
             
 
         }

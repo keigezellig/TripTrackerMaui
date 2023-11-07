@@ -1,4 +1,6 @@
-﻿namespace MauiApp1.Models.TripEvents
+﻿using UnitsNet;
+
+namespace MauiApp1.Models.TripEvents
 {
     public class GnssEvent : Event
     {
@@ -8,11 +10,11 @@
             None, TwoD, ThreeD
         }
         public Location Location { get; }
-        public double GpsSpeed { get; }
+        public Speed GpsSpeed { get; }
         public FixQuality TheFixQuality {  get; }
 
 
-        public GnssEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Location location, double gpsSpeed, FixQuality theFixQuality) : base(tripId,vehicleId, timestamp)
+        public GnssEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Location location, Speed gpsSpeed, FixQuality theFixQuality) : base(tripId,vehicleId, timestamp)
         {
             Location = location;
             GpsSpeed = gpsSpeed;
