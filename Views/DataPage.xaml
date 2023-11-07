@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:material="clr-namespace:MauiIcons.Material;assembly=MauiIcons.Material"
              xmlns:fluent="clr-namespace:MauiIcons.Fluent;assembly=MauiIcons.Fluent"
-             x:Class="MauiApp1.DataPage"
+             x:Class="MauiApp1.Views.DataPage"
              Title="Data">
 
     <ScrollView>

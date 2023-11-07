@@ -3,18 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              xmlns:controls="clr-namespace:MauiApp1.Controls"
-             x:Class="MauiApp1.MapPage"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             x:Class="MauiApp1.Views.MapPage"
              Title="Map">
     
-    <controls:MvvmMap x:Name="map" MapSpan="{Binding MapSpan}" 
-                      ItemsSource="{Binding PinLocations}">
-        <maps:Map.ItemTemplate>
-                <DataTemplate>
-                    <maps:Pin Location="{Binding Location}"
-                              Label="{Binding Label}"
-                              Address="{Binding Description}"/>
-                </DataTemplate>    
-            </maps:Map.ItemTemplate>
-        </controls:MvvmMap>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <mapsui:MapView x:Name="Mapje"
+                        Grid.Row ="0"
+                        IsVisible="true"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="Gray" 
+                        Margin="10" />
+        <Label Grid.Row="1"  x:Name="info" 
+               HorizontalOptions="CenterAndExpand"
+               Text="unknown" />
+    </Grid>
+    
+    <!-- <controls:MvvmMap x:Name="map" MapSpan="{Binding MapSpan}"  -->
+    <!--                   ItemsSource="{Binding PinLocations}"> -->
+    <!--     <maps:Map.ItemTemplate> -->
+    <!--             <DataTemplate> -->
+    <!--                 <maps:Pin Location="{Binding Location}" -->
+    <!--                           Label="{Binding Label}" -->
+    <!--                           Address="{Binding Description}"/> -->
+    <!--             </DataTemplate>     -->
+    <!--         </maps:Map.ItemTemplate> -->
+    <!--     </controls:MvvmMap> -->
     
 </ContentPage>

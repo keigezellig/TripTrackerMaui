@@ -3,7 +3,7 @@
     x:Class="MauiApp1.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiApp1">
+    xmlns:local="clr-namespace:MauiApp1.Views">
 
     <TabBar>
         <Tab Title="Home">
@@ -13,13 +13,18 @@
         </Tab>
         <Tab Title="Data">
             <ShellContent 
-                     ContentTemplate="{DataTemplate local:DataPage}" 
+                     ContentTemplate="{DataTemplate local:LiveDataPage}" 
                       Route="DataPage"/>
         </Tab>
         <Tab Title="Map">
             <ShellContent 
                      ContentTemplate="{DataTemplate local:MapPage}"
                       Route="MapPage"/>
+        </Tab>
+        <Tab Title="Settings">
+            <ShellContent 
+                ContentTemplate="{DataTemplate local:SettingsPage}"
+                Route="SettingsPage"/>
         </Tab>
     </TabBar>
     

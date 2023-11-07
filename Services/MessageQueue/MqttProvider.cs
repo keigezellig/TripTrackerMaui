@@ -31,9 +31,9 @@ namespace MauiApp1.Services
         }
         
 
-        public async Task Connect(string host, int port)
+        public async Task Connect(string host, int port = -1)
         {
-            _logger.LogInformation("Connecting..");
+            _logger.LogInformation($"Connecting to {host}" );
             
             var mqttClientOptions = new MqttClientOptionsBuilder()
                                     .WithTcpServer(host)
