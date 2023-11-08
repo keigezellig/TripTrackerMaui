@@ -52,7 +52,7 @@ public partial class LiveDataViewModel : ObservableRecipient
             case GnssEvent gnssEvent:
                 item.CurrentLocation = gnssEvent.Location;
                 SetCalculatedValues(item, gnssEvent);
-                item.Speed = gnssEvent.GpsSpeed.ToUnit(SpeedUnit.Knot);
+                item.Speed = gnssEvent.GpsSpeed.ToUnit(SpeedUnit.KilometerPerHour);
                 break;
             case TripPausedEvent tripPausedEvent:
                 item.Status = LiveDataItemViewModel.TripStatus.Paused;
