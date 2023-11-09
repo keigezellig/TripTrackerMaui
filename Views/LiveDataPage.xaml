@@ -28,6 +28,7 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
                         BackgroundColor="{DynamicResource PageBackgroundColor}" 
+                        
                          />
         
         

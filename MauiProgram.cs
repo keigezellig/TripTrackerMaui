@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Maui;
-using CommunityToolkit.Maui.Maps;
 using MaterialColorUtilities.Maui;
-using MauiApp1.Helpers;
 using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
@@ -27,8 +25,6 @@ namespace MauiApp1
                 .UseMauiApp<App>()
                 .UseSkiaSharp(true)
                 .UseMauiCommunityToolkit()
-                .UseMauiCommunityToolkitMaps("FIbihTK8UUhD61pp7uFp~nRhZ8n_l6z6hwY8AqYjGdQ~AoK4JSlpppbAnwR2-rx_hi_FQwlbpsOb0-V1zMLsdShfawdzF7Upl7IIjUPCpyQN")
-                .UseMauiMaps()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -40,16 +36,16 @@ namespace MauiApp1
             
 
 
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainViewModel>();
-            builder.Services.AddTransient<DataPage>();
-            builder.Services.AddTransient<DataViewModel>();
-            builder.Services.AddTransient<LiveDataPage>();
-            builder.Services.AddTransient<LiveDataViewModel>();
-            builder.Services.AddTransient<MapPage>();
-            builder.Services.AddTransient<MapViewModel>();
-            builder.Services.AddTransient<SettingsPage>();
-            builder.Services.AddTransient<SettingsViewModel>();
+            builder.Services.AddScoped<MainPage>();
+            builder.Services.AddScoped<MainViewModel>();
+            builder.Services.AddScoped<DataPage>();
+            builder.Services.AddScoped<DataViewModel>();
+            builder.Services.AddScoped<LiveDataPage>();
+            builder.Services.AddScoped<LiveDataViewModel>();
+            builder.Services.AddScoped<MapPage>();
+            builder.Services.AddScoped<MapViewModel>();
+            builder.Services.AddScoped<SettingsPage>();
+            builder.Services.AddScoped<SettingsViewModel>();
 
             builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();
             builder.Services.AddSingleton<TripStartedMessageProcessor>();
@@ -63,7 +59,7 @@ namespace MauiApp1
             builder.Services.AddSingleton<MessageProcessorFactory>();
             builder.Services.AddSingleton<ISettingsService, SettingsService>();
             
-            builder.Services.AddTransient<IDataService, MessageQueueDataService>();
+            builder.Services.AddSingleton<IDataService, MessageQueueDataService>();
             
             builder.Logging
             .AddConsoleLogger(

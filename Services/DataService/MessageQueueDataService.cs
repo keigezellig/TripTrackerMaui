@@ -29,7 +29,7 @@ namespace MauiApp1.Services.DataService
 
         private void MqProvider_MessageReceived(object sender, MessageEventArgs e)
         {
-            _logger.LogInformation($"Data received from topic {e.TopicName} -> {e.Message}");
+            _logger.LogTrace($"Data received from topic {e.TopicName} -> {e.Message}");
             if (e.TopicName == "live/trip")
             {
                 var processor = _mpFactory.GetMessageProcessor(e.Message);

@@ -44,7 +44,7 @@ public abstract class MessageProcessor<TMessage, TModel> : IMessageProcessor whe
 
     private void SendModelData(TModel data)
     {
-        _logger.LogInformation($"Sending {typeof(TModel).FullName} ");
+        _logger.LogTrace($"Sending {typeof(TModel).FullName} ");
         WeakReferenceMessenger.Default.Send(data);
     }
 }
