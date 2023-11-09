@@ -1,0 +1,58 @@
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MauiApp1.Controls.MarkerMap;
+
+public partial class Marker : ObservableRecipient
+{
+    [ObservableProperty]
+    private Location _location;
+    [ObservableProperty]
+    private Color _color;
+    [ObservableProperty] 
+    private string _label;
+    [ObservableProperty] 
+    private string _description;
+    [ObservableProperty] 
+    private bool _isVisible;
+    
+
+    public Marker(Location location, Color color, string label, string description, bool isVisible)
+    {
+        Location = location;
+        Color = color;
+        Label = label;
+        Description = description;
+        IsVisible = isVisible;
+    }
+}
+
+
+public partial class MarkerSet : ObservableObject
+{
+    [ObservableProperty] private string _id;
+    [ObservableProperty] private ObservableCollection<Marker> _markers;
+    private bool _isVisible;
+
+    public MarkerSet(string id)
+    {
+        Id = id;
+        Markers = new ObservableCollection<Marker>();
+        IsVisible = false;
+    }
+    
+    public bool IsVisible
+    {
+        get => _isVisible;
+        set
+        {
+            SetProperty(ref _isVisible, value);
+            foreach (var marker in Markers)
+            {
+                marker.IsVisible = value;
+            }
+        }
+    }
+    
+    
+}

@@ -1,62 +1,32 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using MauiApp1.Controls.MarkerMap;
 using MauiApp1.Models;
 using MauiApp1.Models.TripEvents;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Maps;
 
 namespace MauiApp1.ViewModels;
 
-public partial class MapViewModel : ObservableRecipient
+public partial class MapViewModel : ObservableObject
 {
-    [ObservableProperty] 
-    private MapSpan _mapSpan;
+    private ILogger<MapViewModel> _logger;
+    [ObservableProperty] private ObservableCollection<MarkerSet> _markers;
 
-    [ObservableProperty] 
-    private ObservableCollection<PinInfo> _pinLocations;
-
-    public MapViewModel()
+    public MapViewModel(ILogger<MapViewModel> logger)
     {
-        PinLocations = new ObservableCollection<PinInfo>();
-        IsActive = true;
-    }
-    protected override void OnActivated()
-    {
-        Messenger.Register<MapViewModel, GnssEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateMapLocation(m)));
+        _logger = logger;
+        Markers = new ObservableCollection<MarkerSet>();
     }
 
-    private void UpdateMapLocation(GnssEvent model)
+    [RelayCommand]
+    private void AddMarkerSet()
     {
-        if (PinLocations.Count == 0)
-        {
-            PinLocations.Add(new PinInfo(model.Location, model.VehicleId, $"{model.GpsSpeed * 3.6:F1} km/h"));
-            MapSpan = MapSpan.FromCenterAndRadius(model.Location, new Distance(500));
-        }
-        else
-        {
-           PinLocations.Clear();
-           PinLocations.Add(new PinInfo(model.Location, model.VehicleId,$"{model.GpsSpeed * 3.6:F1} km/h"));
-        }
-        
-         
+        _logger.LogInformation("Adding marker set to list");
+        Markers.Add(new MarkerSet("A"));
     }
 }
 
-public partial class PinInfo : ObservableObject
-{
-    [ObservableProperty] 
-    private Location _location;
-    
-    [ObservableProperty] 
-    private string _label;
-    
-    [ObservableProperty] 
-    private string _description;
 
-    public PinInfo(Location location, string label, string description)
-    {
-        Location = location;
-        Label = label;
-        Description = description;
-    }
-}
