@@ -138,40 +138,48 @@ public partial class MarkerMapView : ContentView
         foreach (var markerItem in markerItems)
         {
             //TODO
-            if (markerItem.PropertyChanged == null)
+            markerItem.PropertyChanged += ((sender, args) =>
             {
-                markerItem.PropertyChanged += ((sender, args) =>
+                var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == markerItem.Id);
+
+                if (pin == null) return;
+                
+                if (args.PropertyName == nameof(markerItem.Location))
                 {
-                    var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == markerItem.Id);
+                    pin.Position = new Position(markerItem.Location.Latitude, markerItem.Location.Longitude);
+                }
+                else if (args.PropertyName == nameof(markerItem.IsVisible))
+                {
+                    pin.IsVisible = markerItem.IsVisible;
+                }
+                else if (args.PropertyName == nameof(markerItem.Color))
+                {
+                    pin.Color = markerItem.Color;
+                }
+                else if (args.PropertyName == nameof(markerItem.Label))
+                {
+                    pin.Label = markerItem.Label;
+                }
+                else if (args.PropertyName == nameof(markerItem.Description))
+                {
+                    //TODO Something with descriptopn
+                }
 
-                    if (pin == null) return;
-                    if (args.PropertyName == nameof(markerItem.Location))
-                    {
-                        pin.Position = new Position(markerItem.Location.Latitude, markerItem.Location.Longitude);
-                    }
-                    else if (args.PropertyName == nameof(markerItem.IsVisible))
-                    {
-                        pin.IsVisible = markerItem.IsVisible;
-                    }
+            });
 
-                });
-            }
         }
     }
 
     private void RemovePins(IEnumerable items)
     {
-        //TODO:
-        
-        // if (items == null) return;
-        // var markerItems = items.Cast<Marker>();
-        // foreach (var item in markerItems)
-        // {
-        //     
-        // }
-        //
-        // _currentPins.RemoveRange(markerItems.Where());
-        
+        if (items == null) return;
+     
+        foreach (var item in items.Cast<Marker>())
+        {
+            var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == item.Id);
+            _currentPins.Remove(pin);
+
+        }
     }
 
     private void AddPins(IEnumerable newItems)
