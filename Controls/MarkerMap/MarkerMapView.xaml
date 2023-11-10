@@ -2,16 +2,33 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Name="MarkerMapViewThingie"
              x:Class="MauiApp1.Controls.MarkerMap.MarkerMapView">
-    <HorizontalStackLayout BindingContext="{x:Reference MarkerMapViewThingie}">
-        <Label Text="{Binding Path=MarkerCollection.Count, FallbackValue='-1'}"/>
-        <CollectionView ItemsSource="{Binding Path=MarkerCollection}">
-            <CollectionView.ItemTemplate>
-                
-            </CollectionView.ItemTemplate>
+    <Grid BindingContext="{x:Reference MarkerMapViewThingie}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <mapsui:MapView x:Name="MapView"
+                        Grid.Row ="0"
+                        IsVisible="true"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="{DynamicResource PageBackgroundColor}"
+        
+        />
             
-        </CollectionView>
-    </HorizontalStackLayout>
+        <!-- <CollectionView Grid.Row="1" ItemsSource="{Binding Path=MarkerCollectionSource}"> -->
+        <!--     <CollectionView.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <Label Text="{Binding Path=Id}"></Label> -->
+        <!--         </DataTemplate> -->
+        <!--     </CollectionView.ItemTemplate> -->
+        <!-- </CollectionView> -->
+
+        
+    </Grid>
     
 </ContentView>

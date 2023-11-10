@@ -13,19 +13,54 @@ namespace MauiApp1.ViewModels;
 public partial class MapViewModel : ObservableObject
 {
     private ILogger<MapViewModel> _logger;
-    [ObservableProperty] private ObservableCollection<MarkerSet> _markers;
+    [ObservableProperty] private ObservableCollection<MarkerSet> _markerCollection;
 
     public MapViewModel(ILogger<MapViewModel> logger)
     {
         _logger = logger;
-        Markers = new ObservableCollection<MarkerSet>();
+        MarkerCollection = new ObservableCollection<MarkerSet>();
     }
 
     [RelayCommand]
-    private void AddMarkerSet()
+    private void AddSet()
     {
         _logger.LogInformation("Adding marker set to list");
-        Markers.Add(new MarkerSet("A"));
+        MarkerCollection.Add(new MarkerSet("A"));
+    }
+
+    [RelayCommand]
+    private void AddMarkerToSet()
+    {
+        _logger.LogInformation("Adding marker to set");
+        var markerSet = MarkerCollection.First();
+        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Location(),Colors.Blue, "hallo","test", true, markerSet));
+    }
+
+    [RelayCommand]
+    private void RemoveMarkerFromSet()
+    {
+        _logger.LogInformation("Remove marker from set");
+        var marker = MarkerCollection.First().Markers.First();
+        MarkerCollection.First().Markers.Remove(marker);
+    }
+    
+    [RelayCommand]
+    private void ChangeMarker()
+    {
+        _logger.LogInformation("Change marker");
+        var marker = MarkerCollection.First().Markers.First();
+        marker.Label = "Poep";
+    }
+    
+    [RelayCommand]
+    private void RemoveSet()
+    {
+        // _logger.LogInformation("Remove set");
+        // var markerSet = MarkerCollection.First();
+        // MarkerCollection.Remove(markerSet);
+        _logger.LogInformation("Toggle visibiluty of set");
+        var markerSet = MarkerCollection.First();
+        markerSet.IsVisible = true;
     }
 }
 

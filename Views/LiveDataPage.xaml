@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:MauiApp1.Views.Converters"
              x:Class="MauiApp1.Views.LiveDataPage"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
+             xmlns:markerMap="clr-namespace:MauiApp1.Controls.MarkerMap"
              Title="Live data">
     
     <ContentPage.Resources>
@@ -22,15 +23,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <mapsui:MapView x:Name="MapView"
-                        Grid.Row ="0"
-                        IsVisible="true"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        BackgroundColor="{DynamicResource PageBackgroundColor}" 
-                        
-                         />
-        
+        <markerMap:MarkerMapView Grid.Row="0" MarkerCollectionSource="{Binding MarkerSets}"/>
+       
         
         <CollectionView Grid.Row="1" ItemsSource="{Binding DataItems}" EmptyView="No items">
 

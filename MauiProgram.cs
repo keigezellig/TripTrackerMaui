@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using MaterialColorUtilities.Maui;
+using MauiApp1.Controls.MarkerMap;
 using MauiIcons.Material;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,7 @@ namespace MauiApp1
             builder.Services.AddScoped<MapViewModel>();
             builder.Services.AddScoped<SettingsPage>();
             builder.Services.AddScoped<SettingsViewModel>();
+            
 
             builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();
             builder.Services.AddSingleton<TripStartedMessageProcessor>();

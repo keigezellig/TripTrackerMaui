@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace MauiApp1.Controls.MarkerMap;
 
+[NotifyPropertyChangedRecipients]
 public partial class Marker : ObservableRecipient
 {
+    
     [ObservableProperty]
     private Location _location;
     [ObservableProperty]
@@ -16,14 +18,23 @@ public partial class Marker : ObservableRecipient
     [ObservableProperty] 
     private bool _isVisible;
     
+    public MarkerSet MarkerSet { get;  }
+    public int Id { get; set; }
+    
 
-    public Marker(Location location, Color color, string label, string description, bool isVisible)
+    public Marker(Location location, Color color, string label, string description, bool isVisible, MarkerSet markerSet)
     {
         Location = location;
         Color = color;
         Label = label;
         Description = description;
         IsVisible = isVisible;
+        MarkerSet = markerSet;
+    }
+
+    public override string ToString()
+    {
+        return $"{nameof(Location)}: {Location}, {nameof(Color)}: {Color}, {nameof(Label)}: {Label}, {nameof(Description)}: {Description}, {nameof(IsVisible)}: {IsVisible}";
     }
 }
 
@@ -53,6 +64,6 @@ public partial class MarkerSet : ObservableObject
             }
         }
     }
-    
+
     
 }
