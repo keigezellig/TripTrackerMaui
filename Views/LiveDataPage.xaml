@@ -26,7 +26,13 @@
         <markerMap:MarkerMapView Grid.Row="0" MarkerCollectionSource="{Binding MarkerSets}"/>
        
         
-        <CollectionView Grid.Row="1" ItemsSource="{Binding DataItems}" EmptyView="No items">
+        <CollectionView Grid.Row="1" 
+                        x:Name="LiveTripCollectionView"
+                        SelectionMode="Single" 
+                        SelectionChangedCommand="{Binding TripSelectedCommand}"
+                        SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}"
+                        ItemsSource="{Binding DataItems}" 
+                        EmptyView="No items">
 
             <CollectionView.Header>
                 <Grid>

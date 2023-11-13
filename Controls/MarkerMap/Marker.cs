@@ -44,12 +44,14 @@ public partial class MarkerSet : ObservableObject
     [ObservableProperty] private string _id;
     [ObservableProperty] private ObservableCollection<Marker> _markers;
     private bool _isVisible;
+    [ObservableProperty] private bool _isSelected;
 
     public MarkerSet(string id)
     {
         Id = id;
         Markers = new ObservableCollection<Marker>();
         IsVisible = false;
+        IsSelected = false;
     }
     
     public bool IsVisible

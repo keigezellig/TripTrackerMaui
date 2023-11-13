@@ -23,16 +23,22 @@ namespace MauiApp1.Views;
 
 public partial class LiveDataPage : ContentPage
 {
-    private readonly LiveDataViewModel _viewModel;
-    private readonly ILogger<LiveDataPage> _logger;
 
-    public LiveDataPage(LiveDataViewModel viewModel, ILogger<LiveDataPage> logger)
+    public LiveDataPage(LiveDataViewModel viewModel)
     {
         BindingContext = viewModel;
-        this._viewModel = viewModel;
-        _logger = logger;
         InitializeComponent();
-        
+
+        LiveTripCollectionView.SelectionChanged += (sender, args) =>
+        {
+            if (args.PreviousSelection.FirstOrDefault() is not LiveDataItemViewModel previous ||
+                args.CurrentSelection.FirstOrDefault() is not LiveDataItemViewModel current) return;
+            
+            previous.MarkerSet.IsSelected = false;
+            current.MarkerSet.IsSelected = true;
+
+        };
+
 
     }
     

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
@@ -77,11 +78,8 @@ public partial class MarkerMapView : ContentView
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
-                if (e.NewItems != null)
-                    foreach (MarkerSet newItem in e.NewItems)
-                    {
-                        newItem.Markers.CollectionChanged += UpdateMarkerSet;
-                    }
+
+                SetMarkerSetPropertyHandlers(e.NewItems);
 
                 break;
             case NotifyCollectionChangedAction.Remove:
@@ -91,15 +89,40 @@ public partial class MarkerMapView : ContentView
             case NotifyCollectionChangedAction.Move:
                 break;
             case NotifyCollectionChangedAction.Reset:
-                if (e.NewItems != null)
-                    foreach (MarkerSet newItem in e.NewItems)
-                    {
-                        newItem.Markers.CollectionChanged += UpdateMarkerSet;
-                    }
+                SetMarkerSetPropertyHandlers(e.NewItems);
                 break;
 
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void SetMarkerSetPropertyHandlers(IList newItems)
+    {
+        if (newItems == null) return;
+        
+        foreach (MarkerSet markerSet in newItems)
+        {
+            markerSet.Markers.CollectionChanged += UpdateMarkerSet;
+            markerSet.PropertyChanged += (sender, args) =>
+            {
+                var set = (MarkerSet)sender!;
+
+                if (args.PropertyName == nameof(set.IsSelected))
+                {
+                    if (!set.Markers.Any())
+                    {
+                        return;
+                    }
+
+                    if (set.IsSelected)
+                    {
+                        var marker = set.Markers.First();
+                        //marker.Location.
+                        _map.Navigator.CenterOnAndZoomTo(new Position(marker.Location.Latitude, marker.Location.Longitude).ToMapsui(), 13);
+                    }
+                } 
+            };
         }
     }
 
@@ -109,7 +132,7 @@ public partial class MarkerMapView : ContentView
         {
             case NotifyCollectionChangedAction.Add:
                 AddPins(e.NewItems);
-                SetPropertyChangedHandlers(e.NewItems);
+                SetMarkerPropertyChangedHandlers(e.NewItems);
                 break;
             case NotifyCollectionChangedAction.Remove:
                 RemovePins(e.OldItems);
@@ -121,7 +144,7 @@ public partial class MarkerMapView : ContentView
             case NotifyCollectionChangedAction.Reset:
                 _currentPins.Clear();
                 AddPins(e.NewItems);
-                SetPropertyChangedHandlers(e.NewItems);
+                SetMarkerPropertyChangedHandlers(e.NewItems);
                 break;
 
             default:
@@ -129,40 +152,36 @@ public partial class MarkerMapView : ContentView
         }
     }
 
-    private void SetPropertyChangedHandlers(IList addedItems)
+    private void SetMarkerPropertyChangedHandlers(IEnumerable addedItems)
     {
         if (addedItems == null) return;
-        
-        var markerItems = addedItems.Cast<Marker>();
 
-        foreach (var markerItem in markerItems)
+        foreach (Marker markerItem in addedItems)
         {
-            //TODO
             markerItem.PropertyChanged += ((sender, args) =>
             {
-                var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == markerItem.Id);
+                var marker = (Marker)sender!;
+                var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == marker.Id);
 
                 if (pin == null) return;
                 
-                if (args.PropertyName == nameof(markerItem.Location))
+                switch (args.PropertyName)
                 {
-                    pin.Position = new Position(markerItem.Location.Latitude, markerItem.Location.Longitude);
-                }
-                else if (args.PropertyName == nameof(markerItem.IsVisible))
-                {
-                    pin.IsVisible = markerItem.IsVisible;
-                }
-                else if (args.PropertyName == nameof(markerItem.Color))
-                {
-                    pin.Color = markerItem.Color;
-                }
-                else if (args.PropertyName == nameof(markerItem.Label))
-                {
-                    pin.Label = markerItem.Label;
-                }
-                else if (args.PropertyName == nameof(markerItem.Description))
-                {
-                    //TODO Something with descriptopn
+                    case nameof(marker.Location):
+                        pin.Position = new Position(marker.Location.Latitude, marker.Location.Longitude);
+                        break;
+                    case nameof(marker.IsVisible):
+                        pin.IsVisible = marker.IsVisible;
+                        break;
+                    case nameof(marker.Color):
+                        pin.Color = marker.Color;
+                        break;
+                    case nameof(marker.Label):
+                        pin.Label = marker.Label;
+                        break;
+                    case nameof(marker.Description):
+                        //TODO Something with descriptopn
+                        break;
                 }
 
             });

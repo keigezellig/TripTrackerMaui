@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Models.TripEvents;
 using CommunityToolkit.Mvvm.Messaging;
 using Mapsui.UI.Maui;
 using MauiApp1.Controls.MarkerMap;
 using MauiApp1.Helpers;
+using Microsoft.Extensions.Logging;
 using UnitsNet;
 using UnitsNet.Units;
 using Distance = Microsoft.Maui.Maps.Distance;
@@ -15,6 +17,8 @@ namespace MauiApp1.ViewModels;
 
 public partial class LiveDataViewModel : ObservableRecipient
 {
+    private readonly ILogger<LiveDataViewModel> _logger;
+
     [ObservableProperty] 
     private ObservableCollection<LiveDataItemViewModel> _dataItems;
 
@@ -22,8 +26,9 @@ public partial class LiveDataViewModel : ObservableRecipient
     [ObservableProperty]
     private ObservableCollection<MarkerSet> _markerSets;
 
-    public LiveDataViewModel()
-    { 
+    public LiveDataViewModel(ILogger<LiveDataViewModel> logger)
+    {
+        _logger = logger;
         DataItems = new ObservableCollection<LiveDataItemViewModel>();
         MarkerSets = new ObservableCollection<MarkerSet>();
         
@@ -41,6 +46,12 @@ public partial class LiveDataViewModel : ObservableRecipient
         Messenger.Register<LiveDataViewModel, GnssEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
         Messenger.Register<LiveDataViewModel, TripPausedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
         Messenger.Register<LiveDataViewModel, FuelStopEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
+    }
+
+    [RelayCommand]
+    public void TripSelected(LiveDataItemViewModel parameter)
+    {
+        //parameter.MarkerSet.IsSelected = true;
     }
 
     private void UpdateData(Event tripEvent)
@@ -64,6 +75,12 @@ public partial class LiveDataViewModel : ObservableRecipient
                 DataItems.Add(newItem);
                 MarkerSets.Add(newItem.MarkerSet);
                 newItem.MarkerSet.Markers.AddWithId(new StartMarker(startedEvent.Position, newItem.MarkerSet));
+
+                if (DataItems.Count == 1)
+                {
+                    newItem.MarkerSet.IsSelected = true;
+                }
+                
                 break;
             case GnssEvent gnssEvent:
                 item.CurrentLocation = gnssEvent.Location;

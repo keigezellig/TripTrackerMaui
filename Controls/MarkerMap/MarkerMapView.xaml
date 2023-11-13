@@ -8,7 +8,6 @@
     <Grid BindingContext="{x:Reference MarkerMapViewThingie}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <mapsui:MapView x:Name="MapView"
@@ -19,15 +18,6 @@
                         BackgroundColor="{DynamicResource PageBackgroundColor}"
         
         />
-            
-        <!-- <CollectionView Grid.Row="1" ItemsSource="{Binding Path=MarkerCollectionSource}"> -->
-        <!--     <CollectionView.ItemTemplate> -->
-        <!--         <DataTemplate> -->
-        <!--             <Label Text="{Binding Path=Id}"></Label> -->
-        <!--         </DataTemplate> -->
-        <!--     </CollectionView.ItemTemplate> -->
-        <!-- </CollectionView> -->
-
         
     </Grid>
     
