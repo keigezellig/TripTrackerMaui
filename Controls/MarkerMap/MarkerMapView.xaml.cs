@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using CoordinateSharp;
 using Mapsui;
 using Mapsui.Extensions;
 using Mapsui.Tiling;
@@ -10,6 +11,7 @@ using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets.Zoom;
 using Microsoft.Extensions.Logging;
+using Distance = CoordinateSharp.Distance;
 using HorizontalAlignment =Mapsui.Widgets.HorizontalAlignment;
 using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
 using Map = Mapsui.Map;
@@ -117,13 +119,85 @@ public partial class MarkerMapView : ContentView
 
                     if (set.IsSelected)
                     {
-                        var marker = set.Markers.First();
-                        //marker.Location.
-                        _map.Navigator.CenterOnAndZoomTo(new Position(marker.Location.Latitude, marker.Location.Longitude).ToMapsui(), 13);
+                        var firstMarker = set.Markers.First();
+                        var lastMarker = set.Markers.Last();
+                        if (firstMarker == lastMarker)
+                        {
+                            _map.Navigator.CenterOnAndZoomTo(new Position(firstMarker.Position.Latitude.ToDouble(), firstMarker.Position.Longitude.ToDouble()).ToMapsui(), 13);
+                        }
+                        else
+                        {
+                            MRect box = CalculateBoundingBox(firstMarker.Position, lastMarker.Position);
+                            
+                            _map.Navigator.ZoomToBox(box);
+                        }
                     }
                 } 
             };
         }
+    }
+
+    private MRect CalculateBoundingBox(Coordinate firstMarkerPosition, Coordinate lastMarkerPosition)
+    {
+        
+        Coordinate c = new Coordinate(firstMarkerPosition.Latitude.ToDouble(), firstMarkerPosition.Longitude.ToDouble());
+        Distance distanceAB = new Distance(firstMarkerPosition, lastMarkerPosition, Shape.Ellipsoid);
+        GeoFence.Drawer gd = new GeoFence.Drawer(c, Shape.Ellipsoid, distanceAB.Bearing);
+        gd.Draw(new Distance(0.5 * distanceAB.Kilometers), -90);
+        gd.Draw(new Distance(distanceAB.Kilometers), 90);
+        gd.Draw(new Distance(distanceAB.Kilometers), -90);
+        gd.Draw(new Distance(distanceAB.Kilometers), -90);
+        gd.Draw(new Distance(0.5 * distanceAB.Kilometers), -90);
+        
+        
+        //See: https://coordinatesharp.com/DeveloperGuide#moving-coordinates
+        
+        
+        
+        //Set coordinates
+        var upperLeft = new Coordinate(firstMarkerPosition.Latitude.ToDouble(), firstMarkerPosition.Longitude.ToDouble());
+        var lowerRight = new Coordinate(lastMarkerPosition.Latitude.ToDouble(), lastMarkerPosition.Longitude.ToDouble());
+
+        //Get distance from start to end
+        // Distance distanceAB = new Distance(firstMarkerPosition, lastMarkerPosition, Shape.Ellipsoid);
+        //
+        // double distance = 0.5 * distanceAB.Meters;
+        //
+        // upperLeft.Move(dis); 
+     
+        // //Set width of box as distance between A and B
+        // double width = distanceAB.Meters; 
+        //
+        // //Set height of box at 500m
+        // double height = 100000;
+        //
+        // //Turn -90 degrees
+        // double baseBearing = distanceAB.Bearing-90;
+		      //
+        // //Calculate Point C from A
+        // var crdInitialPointC = new Coordinate(crdInitialPointA.Latitude.ToDouble(), crdInitialPointA.Longitude.ToDouble());
+        // crdInitialPointC.Move(height, distanceAB.Bearing-90, Shape.Ellipsoid);
+        //
+        // //Calculate Point D from C
+        // //Get new "initial" bearing by reverse calculating the distance from C to A
+        // Distance distanceCA = new Distance(crdInitialPointC, crdInitialPointA, Shape.Ellipsoid);
+        // var crdInitialPointD = new Coordinate(crdInitialPointC.Latitude.ToDouble(), crdInitialPointC.Longitude.ToDouble());
+        // crdInitialPointD.Move(width, distanceCA.Bearing-90, Shape.Ellipsoid);
+        //
+
+        var posses = gd.Points.Select(p => new Position(p.Latitude.ToDouble(), p.Longitude.ToDouble())).ToList();
+        // var posA = new Position(gd.Points, centerPoint.Longitude.ToDouble() );//.ToMapsui();
+        // var posB = new Position(crdInitialPointB.Latitude.ToDouble(), crdInitialPointB.Longitude.ToDouble() );//.ToMapsui();
+        // var posC = new Position(crdInitialPointC.Latitude.ToDouble(), crdInitialPointC.Longitude.ToDouble() );//.ToMapsui();
+        // var posD = new Position(crdInitialPointD.Latitude.ToDouble(), crdInitialPointD.Longitude.ToDouble() );//.ToMapsui();
+        _currentPins.AddRange(posses.Select(ps => new Pin() {Position = ps, Color = Colors.Fuchsia, Tag = -1, Label = ps.ToString() }));
+        foreach (var pin in _currentPins)
+        {
+            pin.ShowCallout();   
+        }
+        var pos1Rect = posses[0].ToMapsui();
+        var pos2Rect = posses[4].ToMapsui();
+        return new MRect(pos1Rect.X, pos1Rect.Y, pos2Rect.X, pos2Rect.Y);
     }
 
     private void UpdateMarkerSet(object sender, NotifyCollectionChangedEventArgs e)
@@ -161,14 +235,14 @@ public partial class MarkerMapView : ContentView
             markerItem.PropertyChanged += ((sender, args) =>
             {
                 var marker = (Marker)sender!;
-                var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == marker.Id);
+                var pin = _currentPins.SingleOrDefault(p => p.Tag != null && (int)p.Tag == marker.Id);
 
                 if (pin == null) return;
                 
                 switch (args.PropertyName)
                 {
-                    case nameof(marker.Location):
-                        pin.Position = new Position(marker.Location.Latitude, marker.Location.Longitude);
+                    case nameof(marker.Position):
+                        pin.Position = new Position(marker.Position.Latitude.ToDouble(), marker.Position.Longitude.ToDouble());
                         break;
                     case nameof(marker.IsVisible):
                         pin.IsVisible = marker.IsVisible;
@@ -205,16 +279,15 @@ public partial class MarkerMapView : ContentView
     {
         if (newItems == null) return;
         
-        var markerItems = newItems.Cast<Marker>();
-        foreach (var markerItem in markerItems)
+        foreach (Marker marker in newItems)
         {
             var newPin = new Pin()
             {
-                Color = markerItem.Color,
-                Position = new Position(markerItem.Location.Latitude, markerItem.Location.Longitude),
-                Label = markerItem.Label,
+                Color = marker.Color,
+                Position = new Position(marker.Position.Latitude.ToDouble(), marker.Position.Longitude.ToDouble()),
+                Label = marker.Label,
                 Scale = 0.7f,
-                Tag = markerItem.Id
+                Tag = marker.Id
             };
             _currentPins.Add(newPin);
         }

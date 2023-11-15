@@ -1,16 +1,14 @@
 ﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Models.TripEvents;
 using CommunityToolkit.Mvvm.Messaging;
-using Mapsui.UI.Maui;
+using CoordinateSharp;
 using MauiApp1.Controls.MarkerMap;
 using MauiApp1.Helpers;
 using Microsoft.Extensions.Logging;
 using UnitsNet;
 using UnitsNet.Units;
-using Distance = Microsoft.Maui.Maps.Distance;
 
 namespace MauiApp1.ViewModels;
 
@@ -121,7 +119,7 @@ public partial class LiveDataViewModel : ObservableRecipient
         
     }
 
-    private void SetCurrentPositionMarker(Location currentLocation, MarkerSet markerSet)
+    private void SetCurrentPositionMarker(Coordinate currentLocation, MarkerSet markerSet)
     {
         var marker = markerSet.Markers.SingleOrDefault(m => m is CurrentPositionMarker);
         if (marker == null)
@@ -130,7 +128,7 @@ public partial class LiveDataViewModel : ObservableRecipient
         }
         else
         {
-            marker.Location = currentLocation;
+            marker.Position = currentLocation;
             marker.IsVisible = true;
         }
     }
@@ -156,7 +154,7 @@ public partial class LiveDataViewModel : ObservableRecipient
     private static void SetCalculatedValues(LiveDataItemViewModel item, Event tripEvent)
     {
         item.Duration = tripEvent.Timestamp - item.StartTime;
-        Distance dist = Distance.BetweenPositions(item.StartLocation, item.CurrentLocation);
+        var dist = new Distance(item.StartLocation, item.CurrentLocation, Shape.Ellipsoid);
         item.Distance = Length.From(dist.Kilometers, LengthUnit.Kilometer).ToUnit(LengthUnit.Kilometer);
     }
 }
@@ -168,9 +166,9 @@ public partial class LiveDataItemViewModel : ObservableObject
     [ObservableProperty] private string _vehicleId;
     [ObservableProperty] private string _tripId;
     [ObservableProperty] private TripStatus _status;
-    [ObservableProperty] private Location _startLocation;
-    [ObservableProperty] private Location _endLocation;
-    [ObservableProperty] private Location _currentLocation;
+    [ObservableProperty] private Coordinate _startLocation;
+    [ObservableProperty] private Coordinate _endLocation;
+    [ObservableProperty] private Coordinate _currentLocation;
     [ObservableProperty] private DateTimeOffset _startTime;
     [ObservableProperty] private DateTimeOffset _endTime;
     [ObservableProperty] private Length _distance;
@@ -185,12 +183,14 @@ public partial class LiveDataItemViewModel : ObservableObject
     }
     
 
-    public LiveDataItemViewModel(string vehicleId, string tripId, Location startLocation, DateTimeOffset startTime)
+    public LiveDataItemViewModel(string vehicleId, string tripId, Coordinate startLocation, DateTimeOffset startTime)
     {
         VehicleId = vehicleId;
         TripId = tripId;
         Status = TripStatus.Active;
         StartLocation = startLocation;
+        StartLocation.FormatOptions.Format = CoordinateFormatType.Degree_Minutes_Seconds;
+        StartLocation.FormatOptions.Round = 3;
         CurrentLocation = startLocation;
         StartTime = startTime;
         MarkerSet = new MarkerSet(tripId);
@@ -199,43 +199,43 @@ public partial class LiveDataItemViewModel : ObservableObject
 }
 
 
-public partial class StartMarker : Marker
+public class StartMarker : Marker
 {
-    public StartMarker(Location location, MarkerSet markerSet, string description = "") : base(location, Colors.Green, "Started", description, true, markerSet)
+    public StartMarker(Coordinate position, MarkerSet markerSet, string description = "") : base(position, Colors.Green, "Started", description, true, markerSet)
     {
     }
 }
 
-public partial class CurrentPositionMarker : Marker
+public class CurrentPositionMarker : Marker
 {
-    public CurrentPositionMarker(Location location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position", description, true, markerSet)
+    public CurrentPositionMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position", description, true, markerSet)
     {
     }
 }
 
-public partial class PauseMarker : Marker
+public class PauseMarker : Marker
 {
-    public PauseMarker(Location location, MarkerSet markerSet, string description = "") : base(location, Colors.Yellow, "Paused", description, true, markerSet)
+    public PauseMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Yellow, "Paused", description, true, markerSet)
     {
     }
 }
 
-public partial class ResumeMarker : Marker
+public class ResumeMarker : Marker
 {
-    public ResumeMarker(Location location, MarkerSet markerSet, string description = "") : base(location, Colors.Olive, "Resumed", description, true, markerSet)
+    public ResumeMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Olive, "Resumed", description, true, markerSet)
     {
     }
 }
-public partial class FuelStopMarker : Marker
+public class FuelStopMarker : Marker
 {
-    public FuelStopMarker(Location location, MarkerSet markerSet, string description =  "") : base(location, Colors.Purple, "Fuel stop", description, true, markerSet)
+    public FuelStopMarker(Coordinate location, MarkerSet markerSet, string description =  "") : base(location, Colors.Purple, "Fuel stop", description, true, markerSet)
     {
     }
 }
 
-public partial class StopMarker : Marker
+public class StopMarker : Marker
 {
-    public StopMarker(Location location, MarkerSet markerSet, string description = "") : base(location, Colors.Red, "Stopped at", description, true, markerSet)
+    public StopMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Red, "Stopped at", description, true, markerSet)
     {
     }
 }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CoordinateSharp;
 using MauiApp1.Controls.MarkerMap;
 using MauiApp1.Models;
 using MauiApp1.Models.TripEvents;
@@ -33,7 +34,7 @@ public partial class MapViewModel : ObservableObject
     {
         _logger.LogInformation("Adding marker to set");
         var markerSet = MarkerCollection.First();
-        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Location(),Colors.Blue, "hallo","test", true, markerSet));
+        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Coordinate(),Colors.Blue, "hallo","test", true, markerSet));
     }
 
     [RelayCommand]

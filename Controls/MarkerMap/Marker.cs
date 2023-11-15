@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CoordinateSharp;
 
 namespace MauiApp1.Controls.MarkerMap;
 
@@ -8,7 +9,7 @@ public partial class Marker : ObservableRecipient
 {
     
     [ObservableProperty]
-    private Location _location;
+    private Coordinate _position;
     [ObservableProperty]
     private Color _color;
     [ObservableProperty] 
@@ -22,9 +23,9 @@ public partial class Marker : ObservableRecipient
     public int Id { get; set; }
     
 
-    public Marker(Location location, Color color, string label, string description, bool isVisible, MarkerSet markerSet)
+    public Marker(Coordinate position, Color color, string label, string description, bool isVisible, MarkerSet markerSet)
     {
-        Location = location;
+        Position = position;
         Color = color;
         Label = label;
         Description = description;
@@ -34,7 +35,7 @@ public partial class Marker : ObservableRecipient
 
     public override string ToString()
     {
-        return $"{nameof(Location)}: {Location}, {nameof(Color)}: {Color}, {nameof(Label)}: {Label}, {nameof(Description)}: {Description}, {nameof(IsVisible)}: {IsVisible}";
+        return $"{nameof(Position)}: {Position}, {nameof(Color)}: {Color}, {nameof(Label)}: {Label}, {nameof(Description)}: {Description}, {nameof(IsVisible)}: {IsVisible}";
     }
 }
 

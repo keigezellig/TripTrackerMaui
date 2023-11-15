@@ -1,4 +1,5 @@
-﻿using MauiApp1.Models.TripEvents;
+﻿using CoordinateSharp;
+using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
 using Microsoft.Extensions.Logging;
 using UnitsNet;
@@ -13,7 +14,7 @@ public class GnssMessageProcessor : MessageProcessor<GnssDataPointMessage, GnssE
 
     protected override GnssEvent ConvertToModel(GnssDataPointMessage deserializedMessage)
     {
-        var location = new Location(deserializedMessage.Data.Position.Latitude,
+        var location = new Coordinate(deserializedMessage.Data.Position.Latitude,
             deserializedMessage.Data.Position.Longitude);
         var timestamp = DateTimeOffset.FromUnixTimeSeconds(deserializedMessage.Timestamp);
         var fixType = (GnssEvent.FixQuality)deserializedMessage.Data.Position.FixQuality;

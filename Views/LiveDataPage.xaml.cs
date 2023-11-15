@@ -31,14 +31,23 @@ public partial class LiveDataPage : ContentPage
 
         LiveTripCollectionView.SelectionChanged += (sender, args) =>
         {
-            if (args.PreviousSelection.FirstOrDefault() is not LiveDataItemViewModel previous ||
-                args.CurrentSelection.FirstOrDefault() is not LiveDataItemViewModel current) return;
-            
-            previous.MarkerSet.IsSelected = false;
-            current.MarkerSet.IsSelected = true;
+            var previous = args.PreviousSelection.FirstOrDefault() as LiveDataItemViewModel;
+            var current = args.CurrentSelection.FirstOrDefault() as LiveDataItemViewModel;
+
+            if (previous != null)
+            {
+                previous.MarkerSet.IsSelected = false;
+            }
+
+            if (current != null)
+            {
+                current.MarkerSet.IsSelected = true;
+            }
 
         };
-
+        
+        
+        
 
     }
     

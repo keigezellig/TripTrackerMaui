@@ -1,4 +1,5 @@
-﻿using UnitsNet;
+﻿using CoordinateSharp;
+using UnitsNet;
 
 namespace MauiApp1.Models.TripEvents;
 
@@ -6,7 +7,7 @@ public class TripStartedEvent : Event
 {
     public Length Odometer { get; }
     public TripPurpose Purpose { get; }
-    public Location Position { get; }
+    public Coordinate Position { get; }
 
 
     public enum TripPurpose
@@ -15,7 +16,7 @@ public class TripStartedEvent : Event
         NonBusiness
     }
 
-    public TripStartedEvent(DateTimeOffset timestamp, Length odometer, TripPurpose purpose, Location position, string tripId, string vehicleId) : base(tripId, vehicleId, timestamp)
+    public TripStartedEvent(DateTimeOffset timestamp, Length odometer, TripPurpose purpose, Coordinate position, string tripId, string vehicleId) : base(tripId, vehicleId, timestamp)
     {
         Odometer = odometer;
         Purpose = purpose;
