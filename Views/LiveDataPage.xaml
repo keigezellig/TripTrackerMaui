@@ -28,9 +28,9 @@
         <CollectionView Grid.Row="1" 
                         x:Name="LiveTripCollectionView"
                         SelectionMode="Single" 
-                        SelectionChangedCommand="{Binding TripSelectedCommand}"
-                        SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}"
                         ItemsSource="{Binding DataItems}" 
+                        SelectedItem="{Binding SelectedTrip}"
+                        SelectionChangedCommand="{Binding TripSelectedCommand}"
                         EmptyView="No items">
 
             <CollectionView.Header>
@@ -43,14 +43,19 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" HorizontalOptions="Fill" Text="Status"/>
-                    <Label Grid.Column="1" HorizontalOptions="Fill" Text="Vehicle ID"/>
+                    <Label Grid.Column="1" HorizontalOptions="Fill" Text="Trip ID"/>
                     <Label Grid.Column="2" HorizontalOptions="Fill" Text="Started on"/>
                     <Label Grid.Column="3" HorizontalOptions="Fill" Text="Ended on"/>
                     <Label Grid.Column="4" HorizontalOptions="Fill" Text="Duration"/>
                     <Label Grid.Column="5" HorizontalOptions="Fill" Text="Distance"/>
                     <Label Grid.Column="6" HorizontalOptions="Fill" Text="Speed (GPS)"/>
+                    <Label Grid.Column="7" HorizontalOptions="Fill" Text="Show on map"/>
+                    <Label Grid.Column="8" HorizontalOptions="Fill" Text="Follow"/>
                 </Grid>
             </CollectionView.Header>
             
@@ -70,6 +75,9 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" HorizontalOptions="Start" HeightRequest="15" WidthRequest="15" Source="{Binding Path=Status, Converter={StaticResource TripStatusToImageSourceConverter}}"/>
                         <Label Grid.Column="1" HorizontalOptions="Fill" Text="{Binding Path=VehicleId }"/>
@@ -78,6 +86,8 @@
                         <Label Grid.Column="4" HorizontalOptions="Fill" Text="{Binding Path=Duration }"/>
                         <Label Grid.Column="5" HorizontalOptions="Fill" Text="{Binding Path=Distance, StringFormat='{0:0.0}'}"/>
                         <Label Grid.Column="6" HorizontalOptions="Fill" Text="{Binding Path=Speed, StringFormat='{0:0.0}'}"/>
+                        <CheckBox Grid.Column="7" IsChecked="{Binding IsVisibleOnMap}"></CheckBox>
+                        <CheckBox Grid.Column="8" IsChecked="{Binding IsFollowingOnMap}" IsEnabled="{Binding IsFollowingAllowed}"></CheckBox>
                     </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

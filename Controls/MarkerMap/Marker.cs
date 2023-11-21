@@ -18,18 +18,21 @@ public partial class Marker : ObservableRecipient
     private string _description;
     [ObservableProperty] 
     private bool _isVisible;
+
+    [ObservableProperty] private bool _isFollowing;
     
     public MarkerSet MarkerSet { get;  }
     public int Id { get; set; }
     
 
-    public Marker(Coordinate position, Color color, string label, string description, bool isVisible, MarkerSet markerSet)
+    public Marker(Coordinate position, Color color, string label, string description, bool isVisible, bool isFollowing, MarkerSet markerSet)
     {
         Position = position;
         Color = color;
         Label = label;
         Description = description;
         IsVisible = isVisible;
+        IsFollowing = isFollowing;
         MarkerSet = markerSet;
     }
 
@@ -44,7 +47,7 @@ public partial class MarkerSet : ObservableObject
 {
     [ObservableProperty] private string _id;
     [ObservableProperty] private ObservableCollection<Marker> _markers;
-    private bool _isVisible;
+    [ObservableProperty] private bool _isVisible;
     [ObservableProperty] private bool _isSelected;
 
     public MarkerSet(string id)
@@ -54,19 +57,12 @@ public partial class MarkerSet : ObservableObject
         IsVisible = false;
         IsSelected = false;
     }
-    
-    public bool IsVisible
+
+    partial void OnIsVisibleChanged(bool value)
     {
-        get => _isVisible;
-        set
+        foreach (var marker in Markers)
         {
-            SetProperty(ref _isVisible, value);
-            foreach (var marker in Markers)
-            {
-                marker.IsVisible = value;
-            }
+            marker.IsVisible = value;
         }
     }
-
-    
 }

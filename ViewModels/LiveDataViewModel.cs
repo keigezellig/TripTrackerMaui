@@ -24,6 +24,10 @@ public partial class LiveDataViewModel : ObservableRecipient
     [ObservableProperty]
     private ObservableCollection<MarkerSet> _markerSets;
 
+    [ObservableProperty] 
+    private LiveDataItemViewModel _selectedTrip;
+
+
     public LiveDataViewModel(ILogger<LiveDataViewModel> logger)
     {
         _logger = logger;
@@ -33,7 +37,6 @@ public partial class LiveDataViewModel : ObservableRecipient
         IsActive = true;
        
     }
-
     
 
     protected override void OnActivated()
@@ -47,10 +50,22 @@ public partial class LiveDataViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    public void TripSelected(LiveDataItemViewModel parameter)
+    private void TripSelected()
     {
-        //parameter.MarkerSet.IsSelected = true;
+        SelectedTrip.MarkerSet.IsSelected = true;
+        SelectedTrip.IsFollowingAllowed = SelectedTrip.IsFollowingAllowed && (SelectedTrip.Status != LiveDataItemViewModel.TripStatus.Finished);
+
     }
+
+    partial void OnSelectedTripChanging(LiveDataItemViewModel oldValue, LiveDataItemViewModel newValue)
+    {
+        if (oldValue != null)
+        {
+            oldValue.MarkerSet.IsSelected = false;
+            
+        }
+    }
+
 
     private void UpdateData(Event tripEvent)
     {
@@ -74,10 +89,7 @@ public partial class LiveDataViewModel : ObservableRecipient
                 MarkerSets.Add(newItem.MarkerSet);
                 newItem.MarkerSet.Markers.AddWithId(new StartMarker(startedEvent.Position, newItem.MarkerSet));
 
-                if (DataItems.Count == 1)
-                {
-                    newItem.MarkerSet.IsSelected = true;
-                }
+                SelectedTrip = newItem;
                 
                 break;
             case GnssEvent gnssEvent:
@@ -116,7 +128,6 @@ public partial class LiveDataViewModel : ObservableRecipient
                 RemoveCurrentPositionMarker(item.MarkerSet);
                 break;
         }
-        
     }
 
     private void SetCurrentPositionMarker(Coordinate currentLocation, MarkerSet markerSet)
@@ -129,7 +140,7 @@ public partial class LiveDataViewModel : ObservableRecipient
         else
         {
             marker.Position = currentLocation;
-            marker.IsVisible = true;
+            marker.IsVisible = markerSet.IsVisible;
         }
     }
     
@@ -174,7 +185,11 @@ public partial class LiveDataItemViewModel : ObservableObject
     [ObservableProperty] private Length _distance;
     [ObservableProperty] private TimeSpan _duration;
     [ObservableProperty] private Speed _speed;
+    [ObservableProperty] private bool _isVisibleOnMap;
+    [ObservableProperty] private bool _isFollowingOnMap;
+    [ObservableProperty] private bool _isFollowingAllowed;
     [ObservableProperty] private MarkerSet _markerSet;
+
     
     
     public enum TripStatus
@@ -194,48 +209,61 @@ public partial class LiveDataItemViewModel : ObservableObject
         CurrentLocation = startLocation;
         StartTime = startTime;
         MarkerSet = new MarkerSet(tripId);
+        IsVisibleOnMap = true;
 
+    }
+
+    partial void OnIsVisibleOnMapChanged(bool value)
+    {
+        MarkerSet.IsVisible = value;
+        IsFollowingAllowed = IsFollowingAllowed && IsVisibleOnMap && MarkerSet.IsSelected;
+    }
+
+    partial void OnIsFollowingOnMapChanged(bool value)
+    {
+        var marker = this.MarkerSet.Markers.Single(m => m is CurrentPositionMarker);
+        marker.IsFollowing = value;
     }
 }
 
 
 public class StartMarker : Marker
 {
-    public StartMarker(Coordinate position, MarkerSet markerSet, string description = "") : base(position, Colors.Green, "Started", description, true, markerSet)
+    public StartMarker(Coordinate position, MarkerSet markerSet, string description = "") : base(position, Colors.Green, "Started", description, true, false, markerSet)
     {
     }
 }
 
 public class CurrentPositionMarker : Marker
 {
-    public CurrentPositionMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position", description, true, markerSet)
+    public CurrentPositionMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position",  description, true, false, markerSet)
     {
     }
 }
 
 public class PauseMarker : Marker
 {
-    public PauseMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Yellow, "Paused", description, true, markerSet)
+    public PauseMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Yellow, "Paused", description, true, false, markerSet)
     {
     }
 }
 
 public class ResumeMarker : Marker
 {
-    public ResumeMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Olive, "Resumed", description, true, markerSet)
+    public ResumeMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Olive, "Resumed", description, true, false, markerSet)
     {
     }
 }
 public class FuelStopMarker : Marker
 {
-    public FuelStopMarker(Coordinate location, MarkerSet markerSet, string description =  "") : base(location, Colors.Purple, "Fuel stop", description, true, markerSet)
+    public FuelStopMarker(Coordinate location, MarkerSet markerSet, string description =  "") : base(location, Colors.Purple, "Fuel stop", description, true, false, markerSet)
     {
     }
 }
 
 public class StopMarker : Marker
 {
-    public StopMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Red, "Stopped at", description, true, markerSet)
+    public StopMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Red, "Stopped at", description, true, false, markerSet)
     {
     }
 }

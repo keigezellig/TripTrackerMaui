@@ -34,7 +34,7 @@ public partial class MapViewModel : ObservableObject
     {
         _logger.LogInformation("Adding marker to set");
         var markerSet = MarkerCollection.First();
-        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Coordinate(),Colors.Blue, "hallo","test", true, markerSet));
+        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Coordinate(),Colors.Blue, "hallo","test", true, false, markerSet));
     }
 
     [RelayCommand]
