@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="clr-namespace:MauiIcons.Material;assembly=MauiIcons.Material"
+             xmlns:fluent="clr-namespace:MauiIcons.Fluent;assembly=MauiIcons.Fluent"
+             x:Class="MauiApp1.Views.DataPage"
+             Title="Data">
+
+    <ScrollView>
+        <VerticalStackLayout Margin="20"                        
+                             Spacing="15">
+            <Image HorizontalOptions="Start" HeightRequest="30" WidthRequest="30" SemanticProperties.Hint="GPS" Source="{material:Icon Icon=Satellite}"/>
+            
+            <Frame Padding="5" BackgroundColor="{DynamicResource Background}" BorderColor="{DynamicResource Outline}">
+                    <HorizontalStackLayout Spacing="15">
+                        <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=PunchClock}"/>
+                        <Label Text="{Binding Time, StringFormat='{0:G}', FallbackValue='N/A'}" FontSize="18" SemanticProperties.HeadingLevel="Level1" />
+                    </HorizontalStackLayout>
+            </Frame>
+
+            <Frame
+              Padding="5" BackgroundColor="{DynamicResource Background}" BorderColor="{DynamicResource Outline}" >
+                <HorizontalStackLayout Spacing="15">
+                    <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=PinDrop}"/>
+                    <Label Text="{Binding Position}"
+                           FontSize="18"
+                           VerticalOptions="End"/>
+                </HorizontalStackLayout>
+            </Frame>
+            <Frame BackgroundColor="{DynamicResource Background}" BorderColor="{DynamicResource Outline}"
+                   Padding="5">
+                <HorizontalStackLayout Spacing="15">
+                    <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=Speed}"/>
+                    <Label Text="{Binding GpsSpeed, StringFormat='{0} km/h', FallbackValue='N/A'}"
+                      FontSize="18" />
+                </HorizontalStackLayout>
+            </Frame>
+            
+            
+
+            
+            
+            
+            
+            
+            <Image HorizontalOptions="Start" HeightRequest="30" WidthRequest="30" SemanticProperties.Hint="Vehicle" Source="{fluent:Icon Icon=VehicleCar32}"/>
+            <Frame BorderColor="{DynamicResource Outline}" BackgroundColor="{DynamicResource Background}"
+              Padding="5">
+                <HorizontalStackLayout Spacing="15">
+                    <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{material:Icon Icon=Speed}"/>
+                    <Label Text="{Binding VehicleSpeed, StringFormat='{0} km/h', FallbackValue='N/A'}"
+                           FontSize="18"
+                           VerticalOptions="End"/>
+                </HorizontalStackLayout>
+            </Frame>
+            <Frame BorderColor="{DynamicResource Outline}" BackgroundColor="{DynamicResource Background}"
+                   Padding="5">
+                <HorizontalStackLayout Spacing="15">
+                    <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{fluent:Icon Icon=Gauge32}"/>
+                    <Label Text="{Binding VehicleRpm, StringFormat='{0} rpm', FallbackValue='N/A'}"
+                      FontSize="18" />
+                </HorizontalStackLayout>
+            </Frame>
+            <Frame BorderColor="{DynamicResource Outline}" BackgroundColor="{DynamicResource Background}"
+                   Padding="5">
+                <HorizontalStackLayout Spacing="15">
+                    <Image Aspect="Center" HeightRequest="30" WidthRequest="30" Source="{fluent:Icon Icon=Water32}"/>
+                    <Label Text="{Binding VehicleCoolantTemp, StringFormat='{0} °C', FallbackValue='N/A'}"
+                      FontSize="18" />
+                </HorizontalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

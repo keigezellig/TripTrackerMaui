@@ -40,7 +40,6 @@ namespace MauiApp1
             builder.Services.AddScoped<MainPage>();
             builder.Services.AddScoped<MainViewModel>();
             builder.Services.AddScoped<DataPage>();
-            builder.Services.AddScoped<DataViewModel>();
             builder.Services.AddScoped<LiveDataPage>();
             builder.Services.AddScoped<LiveDataViewModel>();
             builder.Services.AddScoped<MapPage>();
