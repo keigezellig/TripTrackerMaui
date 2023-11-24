@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MauiApp1.Services.MessageProcessing.JsonMessages;
+namespace TripTracker.Services.MessageProcessing.JsonMessages;
 
 public class VehicleDataPointMessage
 {

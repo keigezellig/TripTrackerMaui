@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
+namespace TripTracker.Services.MessageProcessing.MessageProcessors;
 
 public class UnknownMessageProcessor : IMessageProcessor
 {

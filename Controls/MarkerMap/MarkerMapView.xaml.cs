@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using CoordinateSharp;
-using Mapsui;
+
 using Mapsui.Extensions;
 using Mapsui.Tiling;
 using Mapsui.UI.Maui;
@@ -10,13 +9,12 @@ using Mapsui.Utilities;
 using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets.Zoom;
-using Microsoft.Extensions.Logging;
-using Distance = CoordinateSharp.Distance;
-using HorizontalAlignment =Mapsui.Widgets.HorizontalAlignment;
-using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
-using Map = Mapsui.Map;
 
-namespace MauiApp1.Controls.MarkerMap;
+using HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment;
+using Map = Mapsui.Map;
+using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
+
+namespace TripTracker.Controls.MarkerMap;
 
 public partial class MarkerMapView : ContentView
 {
@@ -29,7 +27,7 @@ public partial class MarkerMapView : ContentView
         defaultBindingMode: BindingMode.TwoWay,
         propertyChanged: UpdateCollection);
 
-    
+
     private static void UpdateCollection(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is MarkerMapView mapView && newValue is ObservableCollection<MarkerSet> newMarkerSet)
@@ -64,7 +62,7 @@ public partial class MarkerMapView : ContentView
         _currentPins = (ObservableRangeCollection<Pin>)MapView.Pins;
         InitializeMap();
     }
-    
+
     private void InitializeMap()
     {
         _map.Layers.Add(OpenStreetMap.CreateTileLayer());
@@ -72,8 +70,8 @@ public partial class MarkerMapView : ContentView
         _map.Widgets.Add(new ZoomInOutWidget { MarginX = 20, MarginY = 40 });
         MapView.MyLocationEnabled = false;
     }
-    
-   
+
+
 
     public void UpdateMarkerSetCollection(object sender, NotifyCollectionChangedEventArgs e)
     {
@@ -102,7 +100,7 @@ public partial class MarkerMapView : ContentView
     private void SetMarkerSetPropertyHandlers(IList newItems)
     {
         if (newItems == null) return;
-        
+
         foreach (MarkerSet markerSet in newItems)
         {
             markerSet.Markers.CollectionChanged += UpdateMarkerSet;
@@ -120,13 +118,13 @@ public partial class MarkerMapView : ContentView
                     if (set.IsSelected && set.IsVisible)
                     {
                         var firstMarker = set.Markers.First();
-                       _map.Navigator.CenterOnAndZoomTo(new Position(firstMarker.Position.Latitude.ToDouble(), firstMarker.Position.Longitude.ToDouble()).ToMapsui(), 13);
+                        _map.Navigator.CenterOnAndZoomTo(new Position(firstMarker.Position.Latitude.ToDouble(), firstMarker.Position.Longitude.ToDouble()).ToMapsui(), 13);
                     }
-                } 
+                }
             };
         }
     }
-    
+
     private void UpdateMarkerSet(object sender, NotifyCollectionChangedEventArgs e)
     {
         switch (e.Action)
@@ -165,7 +163,7 @@ public partial class MarkerMapView : ContentView
                 var pin = _currentPins.SingleOrDefault(p => p.Tag != null && (int)p.Tag == marker.Id);
 
                 if (pin == null) return;
-                
+
                 switch (args.PropertyName)
                 {
                     case nameof(marker.Position):
@@ -197,7 +195,7 @@ public partial class MarkerMapView : ContentView
     private void RemovePins(IEnumerable items)
     {
         if (items == null) return;
-     
+
         foreach (var item in items.Cast<Marker>())
         {
             var pin = _currentPins.SingleOrDefault(p => (int)p.Tag == item.Id);
@@ -209,7 +207,7 @@ public partial class MarkerMapView : ContentView
     private void AddPins(IEnumerable newItems)
     {
         if (newItems == null) return;
-        
+
         foreach (Marker marker in newItems)
         {
             var newPin = new Pin()

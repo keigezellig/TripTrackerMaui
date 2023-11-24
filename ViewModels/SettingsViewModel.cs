@@ -3,12 +3,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using MauiApp1.Services.SettingsService;
-
 using Microsoft.Extensions.Logging;
 
+using TripTracker.Services.SettingsService;
 
-namespace MauiApp1.ViewModels;
+
+namespace TripTracker.ViewModels;
 
 public partial class SettingsViewModel : ObservableValidator
 {

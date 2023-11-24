@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.SettingsService;
+namespace TripTracker.Services.SettingsService;
 
 public class SettingsService : ISettingsService
 {

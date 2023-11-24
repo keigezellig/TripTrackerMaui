@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 
-using MauiApp1.ViewModels;
-
 using MauiIcons.Material;
 
-namespace MauiApp1.Views.Converters;
+using TripTracker.ViewModels;
+
+namespace TripTracker.Views.Converters;
 
 public class TripStatusToImageSourceConverter : IValueConverter
 {

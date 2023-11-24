@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Services.DataService
+﻿namespace TripTracker.Services.DataService
 {
     public interface IDataService : IDisposable
     {

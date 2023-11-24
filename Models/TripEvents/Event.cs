@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Models.TripEvents;
+﻿namespace TripTracker.Models.TripEvents;
 
 public abstract class Event
 {

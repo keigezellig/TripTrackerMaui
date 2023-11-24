@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MauiApp1.ViewModels;
+﻿using TripTracker.ViewModels;
 
-namespace MauiApp1.Views;
+namespace TripTracker.Views;
 
 public partial class SettingsPage : ContentPage
 {
@@ -13,12 +8,6 @@ public partial class SettingsPage : ContentPage
     {
         BindingContext = viewModel;
         InitializeComponent();
-        // viewModel.ErrorsChanged += async (sender, args) =>
-        // {
-        //     if (args.PropertyName == nameof(viewModel.MessageQueueHost))
-        //     {
-        //         await DisplayAlert("Error", "Enter a host name", "OK");
-        //     }
-        // };
+        
     }
 }

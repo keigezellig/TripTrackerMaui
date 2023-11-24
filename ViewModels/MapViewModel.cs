@@ -5,11 +5,12 @@ using CommunityToolkit.Mvvm.Input;
 
 using CoordinateSharp;
 
-using MauiApp1.Controls.MarkerMap;
 
 using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.ViewModels;
+using TripTracker.Controls.MarkerMap;
+
+namespace TripTracker.ViewModels;
 
 public partial class MapViewModel : ObservableObject
 {

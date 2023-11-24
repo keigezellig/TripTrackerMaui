@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-using MauiApp1.Models;
-using MauiApp1.Services.DataService;
+using TripTracker.Models;
+using TripTracker.Services.DataService;
 
-namespace MauiApp1.ViewModels
+namespace TripTracker.ViewModels
 {
     public class MainViewModel : ObservableRecipient
     {

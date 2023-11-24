@@ -1,11 +1,10 @@
-﻿using MauiApp1.Models.TripEvents;
-using MauiApp1.Services.MessageProcessing.JsonMessages;
+﻿using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.Logging;
-
+using TripTracker.Services.MessageProcessing.JsonMessages;
+using TripTracker.Models.TripEvents;
 using UnitsNet;
 
-namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
+namespace TripTracker.Services.MessageProcessing.MessageProcessors;
 
 public class VehicleMessageProcessor : MessageProcessor<VehicleDataPointMessage, Event>
 {

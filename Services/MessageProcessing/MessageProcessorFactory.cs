@@ -1,8 +1,8 @@
-﻿using MauiApp1.Services.MessageProcessing.MessageProcessors;
+﻿using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.Logging;
+using TripTracker.Services.MessageProcessing.MessageProcessors;
 
-namespace MauiApp1.Services.MessageProcessing;
+namespace TripTracker.Services.MessageProcessing;
 
 public class MessageProcessorFactory
 {

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
 
-namespace MauiApp1.Services
+namespace TripTracker.Services.MessageQueue
 {
     public class MqttProvider : IMessageQueueProvider
     {

@@ -1,6 +1,6 @@
-﻿using MauiApp1.ViewModels;
+﻿using TripTracker.ViewModels;
 
-namespace MauiApp1.Views;
+namespace TripTracker.Views;
 
 public partial class LiveDataPage : ContentPage
 {

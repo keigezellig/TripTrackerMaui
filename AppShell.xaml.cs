@@ -1,4 +1,4 @@
-﻿namespace MauiApp1
+﻿namespace TripTracker
 {
     public partial class AppShell : Shell
     {

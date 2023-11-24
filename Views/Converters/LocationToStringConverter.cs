@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace MauiApp1.Views.Converters;
+namespace TripTracker.Views.Converters;
 
 public class LocationToStringConverter : IValueConverter
 {

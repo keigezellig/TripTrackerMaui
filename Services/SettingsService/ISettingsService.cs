@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Services.SettingsService;
+﻿namespace TripTracker.Services.SettingsService;
 
 public interface ISettingsService
 {

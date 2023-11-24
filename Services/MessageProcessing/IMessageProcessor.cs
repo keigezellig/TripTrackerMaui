@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Services.MessageProcessing;
+﻿namespace TripTracker.Services.MessageProcessing;
 
 public interface IMessageProcessor
 {

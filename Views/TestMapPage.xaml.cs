@@ -16,8 +16,8 @@ using Mapsui.Widgets;
 using Mapsui.Widgets.ScaleBar;
 using Mapsui.Widgets.Zoom;
 
-using MauiApp1.Models.TripEvents;
-using MauiApp1.ViewModels;
+using TripTracker.Models.TripEvents;
+using TripTracker.ViewModels;
 
 using UnitsNet;
 
@@ -25,7 +25,7 @@ using Color = Mapsui.Styles.Color;
 using HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment;
 using VerticalAlignment = Mapsui.Widgets.VerticalAlignment;
 
-namespace MauiApp1.Views;
+namespace TripTracker.Views;
 
 public partial class MapPage : ContentPage
 {

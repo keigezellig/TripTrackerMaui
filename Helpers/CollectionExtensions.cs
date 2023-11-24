@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using MauiApp1.Controls.MarkerMap;
 
-namespace MauiApp1.Helpers;
+using TripTracker.Controls.MarkerMap;
+
+namespace TripTracker.Helpers;
 
 public static class CollectionExtensions
 
@@ -14,7 +15,7 @@ public static class CollectionExtensions
     }
     public static void AddWithId(this ObservableCollection<Marker> markers, Marker newMarker)
     {
-            newMarker.Id = GenerateId();
+        newMarker.Id = GenerateId();
 
         markers.Add(newMarker);
     }

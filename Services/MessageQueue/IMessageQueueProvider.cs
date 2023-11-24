@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Services
+﻿namespace TripTracker.Services.MessageQueue
 {
     public interface IMessageQueueProvider : IDisposable
     {

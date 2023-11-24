@@ -6,16 +6,16 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using CoordinateSharp;
 
-using MauiApp1.Controls.MarkerMap;
-using MauiApp1.Helpers;
-using MauiApp1.Models.TripEvents;
-
 using Microsoft.Extensions.Logging;
+
+using TripTracker.Controls.MarkerMap;
+using TripTracker.Helpers;
+using TripTracker.Models.TripEvents;
 
 using UnitsNet;
 using UnitsNet.Units;
 
-namespace MauiApp1.ViewModels;
+namespace TripTracker.ViewModels;
 
 
 public partial class LiveDataViewModel : ObservableRecipient

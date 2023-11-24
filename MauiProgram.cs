@@ -2,14 +2,6 @@
 
 using MaterialColorUtilities.Maui;
 
-using MauiApp1.Services;
-using MauiApp1.Services.DataService;
-using MauiApp1.Services.MessageProcessing;
-using MauiApp1.Services.MessageProcessing.MessageProcessors;
-using MauiApp1.Services.SettingsService;
-using MauiApp1.ViewModels;
-using MauiApp1.Views;
-
 using MauiIcons.Fluent;
 using MauiIcons.Material;
 
@@ -20,7 +12,15 @@ using Microsoft.Extensions.Logging;
 
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
-namespace MauiApp1
+using TripTracker.Services.DataService;
+using TripTracker.Services.MessageProcessing;
+using TripTracker.Services.MessageProcessing.MessageProcessors;
+using TripTracker.Services.MessageQueue;
+using TripTracker.Services.SettingsService;
+using TripTracker.ViewModels;
+using TripTracker.Views;
+
+namespace TripTracker
 {
     public static class MauiProgram
     {
@@ -91,7 +91,6 @@ namespace MauiApp1
             builder.Services.AddSingleton(LogOperatorRetriever.Instance);
 
             var app = builder.Build();
-            //ServiceHelper.Initialize(app.Services);
 
             return app;
         }

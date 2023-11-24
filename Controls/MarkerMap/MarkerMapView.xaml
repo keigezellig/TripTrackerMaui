@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Name="MarkerMapViewThingie"
-             x:Class="MauiApp1.Controls.MarkerMap.MarkerMapView">
+             x:Class="TripTracker.Controls.MarkerMap.MarkerMapView">
     <Grid BindingContext="{x:Reference MarkerMapViewThingie}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

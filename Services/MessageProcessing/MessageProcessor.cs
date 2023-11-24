@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.MessageProcessing;
+namespace TripTracker.Services.MessageProcessing;
 
 public abstract class MessageProcessor<TMessage, TModel> : IMessageProcessor where TMessage : class
                                                                                      where TModel : class

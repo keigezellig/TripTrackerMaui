@@ -1,13 +1,13 @@
 ﻿using CoordinateSharp;
 
-using MauiApp1.Models.TripEvents;
-using MauiApp1.Services.MessageProcessing.JsonMessages;
-
 using Microsoft.Extensions.Logging;
+
+using TripTracker.Models.TripEvents;
+using TripTracker.Services.MessageProcessing.JsonMessages;
 
 using UnitsNet;
 
-namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
+namespace TripTracker.Services.MessageProcessing.MessageProcessors;
 
 public class TripStartedMessageProcessor : MessageProcessor<TripStartedMessage, TripStartedEvent>
 {

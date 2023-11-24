@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
-             xmlns:markerMap="clr-namespace:MauiApp1.Controls.MarkerMap"
-             x:Class="MauiApp1.Views.MapPage"
+             xmlns:markerMap="clr-namespace:TripTracker.Controls.MarkerMap"
+             x:Class="TripTracker.Views.MapPage"
              Title="Map">
     
     <Grid Margin="10">

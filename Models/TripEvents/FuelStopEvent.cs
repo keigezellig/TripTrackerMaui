@@ -1,7 +1,8 @@
 ﻿using CoordinateSharp;
+
 using UnitsNet;
 
-namespace MauiApp1.Models.TripEvents;
+namespace TripTracker.Models.TripEvents;
 
 public class FuelStopEvent : Event
 {

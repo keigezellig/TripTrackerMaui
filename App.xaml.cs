@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls.Handlers.Items;
 
-namespace MauiApp1
+namespace TripTracker
 {
     public partial class App : Application
     {

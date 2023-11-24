@@ -1,7 +1,8 @@
 ﻿using CoordinateSharp;
+
 using UnitsNet;
 
-namespace MauiApp1.Models.TripEvents
+namespace TripTracker.Models.TripEvents
 {
     public class GnssEvent : Event
     {
@@ -12,10 +13,10 @@ namespace MauiApp1.Models.TripEvents
         }
         public Coordinate Location { get; }
         public Speed GpsSpeed { get; }
-        public FixQuality TheFixQuality {  get; }
+        public FixQuality TheFixQuality { get; }
 
 
-        public GnssEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Coordinate location, Speed gpsSpeed, FixQuality theFixQuality) : base(tripId,vehicleId, timestamp)
+        public GnssEvent(string tripId, string vehicleId, DateTimeOffset timestamp, Coordinate location, Speed gpsSpeed, FixQuality theFixQuality) : base(tripId, vehicleId, timestamp)
         {
             Location = location;
             GpsSpeed = gpsSpeed;

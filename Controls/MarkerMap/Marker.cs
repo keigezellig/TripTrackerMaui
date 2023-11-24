@@ -1,29 +1,31 @@
 ﻿using System.Collections.ObjectModel;
+
 using CommunityToolkit.Mvvm.ComponentModel;
+
 using CoordinateSharp;
 
-namespace MauiApp1.Controls.MarkerMap;
+namespace TripTracker.Controls.MarkerMap;
 
 [NotifyPropertyChangedRecipients]
 public partial class Marker : ObservableRecipient
 {
-    
+
     [ObservableProperty]
     private Coordinate _position;
     [ObservableProperty]
     private Color _color;
-    [ObservableProperty] 
+    [ObservableProperty]
     private string _label;
-    [ObservableProperty] 
+    [ObservableProperty]
     private string _description;
-    [ObservableProperty] 
+    [ObservableProperty]
     private bool _isVisible;
 
     [ObservableProperty] private bool _isFollowing;
-    
-    public MarkerSet MarkerSet { get;  }
+
+    public MarkerSet MarkerSet { get; }
     public int Id { get; set; }
-    
+
 
     public Marker(Coordinate position, Color color, string label, string description, bool isVisible, bool isFollowing, MarkerSet markerSet)
     {

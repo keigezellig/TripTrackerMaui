@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 
-using MauiApp1.Models;
-using MauiApp1.Services.MessageProcessing;
-using MauiApp1.Services.SettingsService;
-
 using Microsoft.Extensions.Logging;
 
-namespace MauiApp1.Services.DataService
+using TripTracker.Models;
+using TripTracker.Services.MessageProcessing;
+using TripTracker.Services.MessageQueue;
+using TripTracker.Services.SettingsService;
+
+namespace TripTracker.Services.DataService
 {
     public class MessageQueueDataService : IDataService
     {

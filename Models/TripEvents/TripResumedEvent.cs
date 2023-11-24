@@ -1,6 +1,6 @@
 ﻿using CoordinateSharp;
 
-namespace MauiApp1.Models.TripEvents;
+namespace TripTracker.Models.TripEvents;
 
 public class TripResumedEvent : Event
 {

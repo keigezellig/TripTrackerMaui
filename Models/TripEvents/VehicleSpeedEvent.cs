@@ -1,6 +1,6 @@
 ﻿using UnitsNet;
 
-namespace MauiApp1.Models.TripEvents
+namespace TripTracker.Models.TripEvents
 {
     public class VehicleSpeedEvent : Event
     {

@@ -1,11 +1,10 @@
-﻿using MauiApp1.ViewModels;
+﻿
+using TripTracker.ViewModels;
 
-namespace MauiApp1.Views
+namespace TripTracker.Views
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage(MainViewModel viewModel)
         {
             BindingContext = viewModel;

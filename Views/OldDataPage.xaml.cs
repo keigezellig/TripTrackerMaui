@@ -1,4 +1,4 @@
-﻿namespace MauiApp1.Views
+﻿namespace TripTracker.Views
 {
     public partial class DataPage : ContentPage
     {
