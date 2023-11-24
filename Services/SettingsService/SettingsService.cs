@@ -1,5 +1,4 @@
-﻿using MetroLog;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.SettingsService;
 
@@ -12,16 +11,16 @@ public class SettingsService : ISettingsService
     public string MessageQueueHost
     {
         get => Preferences.Get(MessageQueueHostKey, "localhost");
-        set 
+        set
         {
-            _logger.LogInformation($"Saving {MessageQueueHostKey}"); 
+            _logger.LogInformation($"Saving {MessageQueueHostKey}");
             Preferences.Set(MessageQueueHostKey, value);
         }
-}
+    }
 
     public SettingsService(ILogger<SettingsService> logger)
     {
         _logger = logger;
     }
-   
+
 }

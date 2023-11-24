@@ -1,13 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text;
+
+using Microsoft.Extensions.Logging;
+
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Exceptions;
-using MQTTnet.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiApp1.Services
 {
@@ -29,21 +25,21 @@ namespace MauiApp1.Services
             _mqttClient.ApplicationMessageReceivedAsync += _mqttClient_ApplicationMessageReceivedAsync;
             _logger = logger;
         }
-        
+
 
         public async Task Connect(string host, int port = -1)
         {
-            _logger.LogInformation($"Connecting to {host}" );
-            
+            _logger.LogInformation($"Connecting to {host}");
+
             var mqttClientOptions = new MqttClientOptionsBuilder()
                                     .WithTcpServer(host)
                                     .Build();
 
-                if (_mqttClient.IsConnected)
-                {
-                    _logger.LogInformation("Already connected.");
-                    return;
-                }
+            if (_mqttClient.IsConnected)
+            {
+                _logger.LogInformation("Already connected.");
+                return;
+            }
 
             try
             {
@@ -51,7 +47,7 @@ namespace MauiApp1.Services
                 {
                     var bla = await _mqttClient.ConnectAsync(mqttClientOptions, timeoutToken.Token);
                     _logger.LogInformation("Connection result: {0}", bla.ResultCode);
-                    
+
                 }
             }
             catch (OperationCanceledException)
@@ -61,7 +57,7 @@ namespace MauiApp1.Services
 
             catch (Exception ex)
             {
-                _logger.LogError("Other error while connecting: {0}",ex);
+                _logger.LogError("Other error while connecting: {0}", ex);
             }
 
 
@@ -71,8 +67,8 @@ namespace MauiApp1.Services
         {
 
             var message = Encoding.UTF8.GetString(arg.ApplicationMessage.PayloadSegment);
-            var topic = arg.ApplicationMessage.Topic;            
-            
+            var topic = arg.ApplicationMessage.Topic;
+
             OnMessageReceived(topic, message);
             return Task.CompletedTask;
         }
@@ -88,7 +84,7 @@ namespace MauiApp1.Services
             var options = new MqttClientDisconnectOptionsBuilder()
                 .WithReason(MqttClientDisconnectOptionsReason.NormalDisconnection)
                 .Build();
-            
+
             await _mqttClient.DisconnectAsync(options);
             _logger.LogInformation("Disconnected");
         }
@@ -109,7 +105,7 @@ namespace MauiApp1.Services
             var result = await _mqttClient.SubscribeAsync(mqttSubscribeOptionsBuilder.Build(), CancellationToken.None);
             var subscribedTo = String.Join(",", result.Items.Select(i => i.TopicFilter.Topic));
             _logger.LogInformation($"Subscribed to {subscribedTo}");
-            
+
         }
 
         protected virtual void Dispose(bool disposing)

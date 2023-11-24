@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace MauiApp1.Services.MessageProcessing.JsonMessages;
 
@@ -18,10 +17,10 @@ public class TripPausedData
 {
     [JsonPropertyName("trip_id")]
     public string TripId { get; set; }
-    
+
     [JsonPropertyName("vehicle_id")]
     public string VehicleId { get; set; }
-    
+
     [JsonPropertyName("position")]
     public double[] Position { get; set; }
 }

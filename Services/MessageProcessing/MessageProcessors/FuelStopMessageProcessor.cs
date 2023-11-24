@@ -1,9 +1,11 @@
 ﻿using CoordinateSharp;
+
 using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
+
 using Microsoft.Extensions.Logging;
+
 using UnitsNet;
-using UnitsNet.Units;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;
 
@@ -19,9 +21,9 @@ public class FuelStopMessageProcessor : MessageProcessor<FuelStopMessage, FuelSt
             deserializedMessage.Data.VehicleId,
             timestamp,
             pos,
-            Length.FromMeters(deserializedMessage.Data.AtDistance), 
+            Length.FromMeters(deserializedMessage.Data.AtDistance),
             Volume.FromLiters(deserializedMessage.Data.Quantity),
-            (decimal)deserializedMessage.Data.TotalAmount, 
+            (decimal)deserializedMessage.Data.TotalAmount,
             (decimal)deserializedMessage.Data.Price);
     }
 

@@ -17,5 +17,5 @@ public class UnknownMessageProcessor : IMessageProcessor
         _logger.LogWarning("Unsupported message. Ignoring");
     }
 
-    
+
 }

@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+
 using MauiApp1.Services.SettingsService;
+
 using Microsoft.Extensions.Logging;
 
 
@@ -9,7 +12,7 @@ namespace MauiApp1.ViewModels;
 
 public partial class SettingsViewModel : ObservableValidator
 {
-    [ObservableProperty] 
+    [ObservableProperty]
     [NotifyDataErrorInfo]
     [Required]
     private string _messageQueueHost;
@@ -23,8 +26,8 @@ public partial class SettingsViewModel : ObservableValidator
         _settingsService = settingsService;
         _logger = logger;
         MessageQueueHost = _settingsService.MessageQueueHost;
-        
-        
+
+
 
     }
 

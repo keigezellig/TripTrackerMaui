@@ -1,13 +1,14 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+
 using CommunityToolkit.Mvvm.Messaging;
-using MauiApp1.Services.MessageProcessing.JsonMessages;
+
 using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing;
 
 public abstract class MessageProcessor<TMessage, TModel> : IMessageProcessor where TMessage : class
-                                                                                     where TModel: class 
+                                                                                     where TModel : class
 {
     protected ILogger<MessageProcessor<TMessage, TModel>> _logger;
 
@@ -36,7 +37,7 @@ public abstract class MessageProcessor<TMessage, TModel> : IMessageProcessor whe
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
-        
+
         return JsonSerializer.Deserialize<TMessage>(message, options);
     }
 

@@ -1,6 +1,8 @@
 ﻿using CoordinateSharp;
+
 using MauiApp1.Models.TripEvents;
 using MauiApp1.Services.MessageProcessing.JsonMessages;
+
 using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.MessageProcessing.MessageProcessors;

@@ -1,9 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+
 using MaterialColorUtilities.Maui;
-using MauiApp1.Controls.MarkerMap;
-using MauiIcons.Material;
-using MauiIcons.Fluent;
-using Microsoft.Extensions.Logging;
+
 using MauiApp1.Services;
 using MauiApp1.Services.DataService;
 using MauiApp1.Services.MessageProcessing;
@@ -11,8 +9,15 @@ using MauiApp1.Services.MessageProcessing.MessageProcessors;
 using MauiApp1.Services.SettingsService;
 using MauiApp1.ViewModels;
 using MauiApp1.Views;
+
+using MauiIcons.Fluent;
+using MauiIcons.Material;
+
 using MetroLog.MicrosoftExtensions;
 using MetroLog.Operators;
+
+using Microsoft.Extensions.Logging;
+
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MauiApp1
@@ -34,7 +39,7 @@ namespace MauiApp1
                 .UseFluentMauiIcons()
                 .UseMaterialColors()
                 .UseMaterialMauiIcons();
-            
+
 
 
             builder.Services.AddScoped<MainPage>();
@@ -46,7 +51,7 @@ namespace MauiApp1
             builder.Services.AddScoped<MapViewModel>();
             builder.Services.AddScoped<SettingsPage>();
             builder.Services.AddScoped<SettingsViewModel>();
-            
+
 
             builder.Services.AddSingleton<IMessageQueueProvider, MqttProvider>();
             builder.Services.AddSingleton<TripStartedMessageProcessor>();
@@ -59,9 +64,9 @@ namespace MauiApp1
             builder.Services.AddSingleton<UnknownMessageProcessor>();
             builder.Services.AddSingleton<MessageProcessorFactory>();
             builder.Services.AddSingleton<ISettingsService, SettingsService>();
-            
+
             builder.Services.AddSingleton<IDataService, MessageQueueDataService>();
-            
+
             builder.Logging
             .AddConsoleLogger(
                 options =>
@@ -82,7 +87,7 @@ namespace MauiApp1
                     options.MinLevel = LogLevel.Debug;
                     options.MaxLevel = LogLevel.Critical;
                 });
-            
+
             builder.Services.AddSingleton(LogOperatorRetriever.Instance);
 
             var app = builder.Build();

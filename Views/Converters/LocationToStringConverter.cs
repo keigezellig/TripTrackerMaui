@@ -13,8 +13,8 @@ public class LocationToStringConverter : IValueConverter
     {
         return null;
     }
-    
-    
+
+
     private string GetPosition(Location location)
     {
         string result = "";
@@ -23,7 +23,7 @@ public class LocationToStringConverter : IValueConverter
         {
             return "-";
         }
-            
+
         if (location.Latitude < 0)
         {
             result += $"{Math.Abs(location.Latitude):F4}° S ";

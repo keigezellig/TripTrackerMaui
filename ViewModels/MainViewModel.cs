@@ -1,14 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+
 using MauiApp1.Models;
-using MauiApp1.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using MauiApp1.Services.DataService;
 
 namespace MauiApp1.ViewModels
@@ -25,13 +19,13 @@ namespace MauiApp1.ViewModels
 
             StartCommand = new AsyncRelayCommand(() =>
             {
-                
-                return dataService.Start();                
+
+                return dataService.Start();
 
             }, () => !dataService.IsStarted);
             StopCommand = new AsyncRelayCommand(() =>
             {
-                return dataService.Stop();                
+                return dataService.Stop();
 
             }, () => dataService.IsStarted);
         }
@@ -42,13 +36,13 @@ namespace MauiApp1.ViewModels
 
         protected override void OnActivated()
         {
-            Messenger.Register<MainViewModel, StatusMessage>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateStatus(m)));
-            
+            Messenger.Register<MainViewModel, StatusMessage>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateStatus(m)));
+
         }
 
         private void UpdateStatus(StatusMessage message)
         {
-            
+
             (StartCommand as AsyncRelayCommand).NotifyCanExecuteChanged();
             (StopCommand as AsyncRelayCommand).NotifyCanExecuteChanged();
 

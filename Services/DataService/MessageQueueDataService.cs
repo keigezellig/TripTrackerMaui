@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+
 using MauiApp1.Models;
 using MauiApp1.Services.MessageProcessing;
 using MauiApp1.Services.SettingsService;
+
 using Microsoft.Extensions.Logging;
 
 namespace MauiApp1.Services.DataService
 {
-    public class MessageQueueDataService: IDataService
+    public class MessageQueueDataService : IDataService
     {
         private readonly IMessageQueueProvider _mqProvider;
         private bool _disposedValue;
@@ -14,13 +16,13 @@ namespace MauiApp1.Services.DataService
         private readonly MessageProcessorFactory _mpFactory;
         private readonly ISettingsService _settingsService;
 
-        public MessageQueueDataService(IMessageQueueProvider mqProvider, 
-                                       ILogger<MessageQueueDataService> logger, 
+        public MessageQueueDataService(IMessageQueueProvider mqProvider,
+                                       ILogger<MessageQueueDataService> logger,
                                        MessageProcessorFactory mpFactory,
-                                       ISettingsService settingsService) 
+                                       ISettingsService settingsService)
         {
             _mqProvider = mqProvider;
-            _mqProvider.MessageReceived += MqProvider_MessageReceived;            
+            _mqProvider.MessageReceived += MqProvider_MessageReceived;
             _logger = logger;
             _mpFactory = mpFactory;
             _settingsService = settingsService;
@@ -41,10 +43,10 @@ namespace MauiApp1.Services.DataService
 
         public async Task Start()
         {
-            await _mqProvider.Connect(_settingsService.MessageQueueHost,-1);
+            await _mqProvider.Connect(_settingsService.MessageQueueHost, -1);
             await _mqProvider.Subscribe(new[] { "live/trip" });
-            
-            
+
+
             OnStarted();
         }
 
@@ -61,7 +63,7 @@ namespace MauiApp1.Services.DataService
         }
 
         protected virtual void OnStopped()
-        {           
+        {
             WeakReferenceMessenger.Default.Send(new StatusMessage(false));
         }
 

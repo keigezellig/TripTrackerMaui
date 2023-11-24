@@ -1,12 +1,17 @@
 ﻿using System.Collections.ObjectModel;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MauiApp1.Models.TripEvents;
 using CommunityToolkit.Mvvm.Messaging;
+
 using CoordinateSharp;
+
 using MauiApp1.Controls.MarkerMap;
 using MauiApp1.Helpers;
+using MauiApp1.Models.TripEvents;
+
 using Microsoft.Extensions.Logging;
+
 using UnitsNet;
 using UnitsNet.Units;
 
@@ -17,14 +22,14 @@ public partial class LiveDataViewModel : ObservableRecipient
 {
     private readonly ILogger<LiveDataViewModel> _logger;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private ObservableCollection<LiveDataItemViewModel> _dataItems;
 
 
     [ObservableProperty]
     private ObservableCollection<MarkerSet> _markerSets;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private LiveDataItemViewModel _selectedTrip;
 
 
@@ -33,20 +38,20 @@ public partial class LiveDataViewModel : ObservableRecipient
         _logger = logger;
         DataItems = new ObservableCollection<LiveDataItemViewModel>();
         MarkerSets = new ObservableCollection<MarkerSet>();
-        
+
         IsActive = true;
-       
+
     }
-    
+
 
     protected override void OnActivated()
     {
-        Messenger.Register<LiveDataViewModel, TripStartedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
-        Messenger.Register<LiveDataViewModel, TripStoppedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
-        Messenger.Register<LiveDataViewModel, TripResumedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
-        Messenger.Register<LiveDataViewModel, GnssEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
-        Messenger.Register<LiveDataViewModel, TripPausedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
-        Messenger.Register<LiveDataViewModel, FuelStopEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread( () => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, TripStartedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, TripStoppedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, TripResumedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, GnssEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, TripPausedEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
+        Messenger.Register<LiveDataViewModel, FuelStopEvent>(this, (r, m) => MainThread.BeginInvokeOnMainThread(() => r.UpdateData(m)));
     }
 
     [RelayCommand]
@@ -62,7 +67,7 @@ public partial class LiveDataViewModel : ObservableRecipient
         if (oldValue != null)
         {
             oldValue.MarkerSet.IsSelected = false;
-            
+
         }
     }
 
@@ -74,23 +79,23 @@ public partial class LiveDataViewModel : ObservableRecipient
         {
             return;
         }
-        
-        
+
+
         switch (tripEvent)
         {
             case TripStartedEvent startedEvent:
                 var newItem =
                     new LiveDataItemViewModel(
-                        startedEvent.VehicleId, 
-                        startedEvent.TripId, 
-                        startedEvent.Position, 
+                        startedEvent.VehicleId,
+                        startedEvent.TripId,
+                        startedEvent.Position,
                         startedEvent.Timestamp);
                 DataItems.Add(newItem);
                 MarkerSets.Add(newItem.MarkerSet);
                 newItem.MarkerSet.Markers.AddWithId(new StartMarker(startedEvent.Position, newItem.MarkerSet));
 
                 SelectedTrip = newItem;
-                
+
                 break;
             case GnssEvent gnssEvent:
                 item.CurrentLocation = gnssEvent.Location;
@@ -103,7 +108,7 @@ public partial class LiveDataViewModel : ObservableRecipient
                 item.Status = LiveDataItemViewModel.TripStatus.Paused;
                 item.CurrentLocation = tripPausedEvent.Position;
                 SetCalculatedValues(item, tripPausedEvent);
-                ToggleVisibilityOfCurrentPositionMarker(item.MarkerSet,false);
+                ToggleVisibilityOfCurrentPositionMarker(item.MarkerSet, false);
                 break;
             case TripResumedEvent tripResumedEvent:
                 item.MarkerSet.Markers.AddWithId(new ResumeMarker(tripResumedEvent.Position, item.MarkerSet));
@@ -143,7 +148,7 @@ public partial class LiveDataViewModel : ObservableRecipient
             marker.IsVisible = markerSet.IsVisible;
         }
     }
-    
+
     private void RemoveCurrentPositionMarker(MarkerSet markerSet)
     {
         var marker = markerSet.Markers.SingleOrDefault(m => m is CurrentPositionMarker);
@@ -190,13 +195,13 @@ public partial class LiveDataItemViewModel : ObservableObject
     [ObservableProperty] private bool _isFollowingAllowed;
     [ObservableProperty] private MarkerSet _markerSet;
 
-    
-    
+
+
     public enum TripStatus
     {
         Active, Paused, FuelStop, Finished
     }
-    
+
 
     public LiveDataItemViewModel(string vehicleId, string tripId, Coordinate startLocation, DateTimeOffset startTime)
     {
@@ -236,7 +241,7 @@ public class StartMarker : Marker
 
 public class CurrentPositionMarker : Marker
 {
-    public CurrentPositionMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position",  description, true, false, markerSet)
+    public CurrentPositionMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Blue, "Current position", description, true, false, markerSet)
     {
     }
 }
@@ -256,7 +261,7 @@ public class ResumeMarker : Marker
 }
 public class FuelStopMarker : Marker
 {
-    public FuelStopMarker(Coordinate location, MarkerSet markerSet, string description =  "") : base(location, Colors.Purple, "Fuel stop", description, true, false, markerSet)
+    public FuelStopMarker(Coordinate location, MarkerSet markerSet, string description = "") : base(location, Colors.Purple, "Fuel stop", description, true, false, markerSet)
     {
     }
 }

@@ -11,6 +11,6 @@ namespace MauiApp1.Views
             BindingContext = viewModel;
             InitializeComponent();
         }
-       
+
     }
 }

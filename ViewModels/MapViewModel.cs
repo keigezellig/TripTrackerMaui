@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
+
 using CoordinateSharp;
+
 using MauiApp1.Controls.MarkerMap;
-using MauiApp1.Models;
-using MauiApp1.Models.TripEvents;
+
 using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Maps;
 
 namespace MauiApp1.ViewModels;
 
@@ -34,7 +34,7 @@ public partial class MapViewModel : ObservableObject
     {
         _logger.LogInformation("Adding marker to set");
         var markerSet = MarkerCollection.First();
-        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Coordinate(),Colors.Blue, "hallo","test", true, false, markerSet));
+        markerSet.Markers.Add(new Controls.MarkerMap.Marker(new Coordinate(), Colors.Blue, "hallo", "test", true, false, markerSet));
     }
 
     [RelayCommand]
@@ -44,7 +44,7 @@ public partial class MapViewModel : ObservableObject
         var marker = MarkerCollection.First().Markers.First();
         MarkerCollection.First().Markers.Remove(marker);
     }
-    
+
     [RelayCommand]
     private void ChangeMarker()
     {
@@ -52,7 +52,7 @@ public partial class MapViewModel : ObservableObject
         var marker = MarkerCollection.First().Markers.First();
         marker.Label = "Poep";
     }
-    
+
     [RelayCommand]
     private void RemoveSet()
     {

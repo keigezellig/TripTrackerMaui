@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+
 using MauiApp1.ViewModels;
+
 using MauiIcons.Material;
 
 namespace MauiApp1.Views.Converters;
@@ -12,9 +14,9 @@ public class TripStatusToImageSourceConverter : IValueConverter
         {
             return null;
         }
-        
+
         var theValue = (LiveDataItemViewModel.TripStatus)value;
-        switch (theValue)   
+        switch (theValue)
         {
             case LiveDataItemViewModel.TripStatus.Active:
                 return (ImageSource)new MauiIcon
@@ -32,7 +34,7 @@ public class TripStatusToImageSourceConverter : IValueConverter
                 {
                     Icon = MaterialIcons.OilBarrel
                 };
- 
+
             case LiveDataItemViewModel.TripStatus.Finished:
                 return (ImageSource)new MauiIcon
                 {
